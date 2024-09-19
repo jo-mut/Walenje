@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import MainStackNavigator from "./src/navigation/StackNavigator";
+import { Button, Text, View } from "react-native";
+import { getLatestBlock } from "./src/services/etherService";
+import { connectWallet, disconnectWallet } from "./src/services/walletService";
 
 
 const App = () => {
+  const [walletAddress, setWalletAddress] = useState(null);
+
+  const handleConnect = async () => {
+    const { signer } = await connectWallet();
+    if (signer) {
+      setWalletAddress(await signer.getAddress());
+    }
+  };
+
+  const handleDisconnect = async () => {
+    disconnectWallet();
+    setWalletAddress(null);
+  };
+
   return (
-    <NavigationContainer>
-      <MainStackNavigator/>
-    </NavigationContainer>
+    <View>
+      <Text>Wallenje</Text>
+      {walletAddress ? (
+        <View>
+          <Text>Connected: {walletAddress}</Text>
+          <Button title="Disconnect Wallet" onPress={handleDisconnect} />
+        </View>
+      ) : (
+        <View>
+          <Button title="Connect Wallet" onPress={handleConnect} />
+        </View>
+      )}
+    </View>
   );
 };
 
