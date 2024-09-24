@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { Button, Text, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getLatestBlock } from "./src/services/etherService";
-import { connectWallet, disconnectWallet } from "./src/services/walletService";
+import ConnectView from "./src/services/walletService";
+import { AppKit } from "@reown/appkit-ethers5-react-native";
 
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
-
-  const handleConnect = async () => {
-    const { signer } = await connectWallet();
-    if (signer) {
-      setWalletAddress(await signer.getAddress());
-    }
-  };
-
-  const handleDisconnect = async () => {
-    disconnectWallet();
-    setWalletAddress(null);
-  };
+  const { open } = ConnectView();
 
   return (
-    <View>
-      <Text>Wallenje</Text>
-      {walletAddress ? (
-        <View>
-          <Text>Connected: {walletAddress}</Text>
-          <Button title="Disconnect Wallet" onPress={handleDisconnect} />
-        </View>
-      ) : (
-        <View>
-          <Button title="Connect Wallet" onPress={handleConnect} />
-        </View>
-      )}
+    <View style={styles.Container}>
+      <TouchableOpacity style={styles.ConnectContainer} onPress={() => open()}>
+        <Text>Open Connect Modal</Text>
+      </TouchableOpacity>
+      <AppKit/>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  Container: {
+    flex: 1
+  },
+
+  ConnectContainer: {
+    marginTop: 100,
+    backgroundColor: 'green',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
 
 export default App;
