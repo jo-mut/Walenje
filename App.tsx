@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getLatestBlock } from "./src/services/etherService";
-import ConnectView from "./src/services/walletService";
-import { AppKit } from "@reown/appkit-ethers5-react-native";
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TabNavigator from "./src/navigation/TabNavigation";
+import Settings from "./src/screens/settings/Settings";
+
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [walletAddress, setWalletAddress] = useState(null);
-  const { open } = ConnectView();
 
   return (
-    <View style={styles.Container}>
-      <TouchableOpacity style={styles.ConnectContainer} onPress={() => open()}>
-        <Text>Open Connect Modal</Text>
-      </TouchableOpacity>
-      <AppKit/>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Tabs' component={TabNavigator}
+          options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+        <Stack.Screen name='Settings' component={Settings}
+          options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
