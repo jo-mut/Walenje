@@ -1,16 +1,18 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from "./TabNavigation";
-import Settings from "../screens/settings/Settings";
-import AccountRecovery from "../screens/setup/RecoverWallet";
-import { CreateWallet } from "../screens/setup/CreateWallet";
+import { CreateWallet } from "../screens/setups/CreateWallet";
+import { CreateMnemonic } from "../screens/setups/CreateMnemonic";
+import { ConfirmMnemonic } from "../screens/setups/ConfirmMnemonic";
+
 
 
 export type RootStackParamList = {
     Tabs: undefined;
     Settings: undefined;
     CreateWallet: undefined;
-    RecoverWallet: undefined;
+    CreateMnemonic: undefined;
+    ConfirmMnemonic: undefined;
 };
 
 
@@ -20,18 +22,16 @@ const NavigationRoot = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Screen name='CreateWallet' component={CreateWallet}
-                options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
-            <Stack.Screen name='RecoverWallet' component={AccountRecovery}
-                options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
             <Stack.Navigator initialRouteName="CreateWallet" screenOptions={{ headerShown: false }}>
+                <Stack.Screen name='CreateMnemonic' component={CreateMnemonic}
+                    options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
                 <Stack.Screen name='CreateWallet' component={CreateWallet}
+                    options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+                    <Stack.Screen name='ConfirmMnemonic' component={ConfirmMnemonic}
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
                 <Stack.Screen name='Tabs' component={TabNavigator}
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
             </Stack.Navigator>
-            <Stack.Screen name='Settings' component={Settings}
-                options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
         </NavigationContainer>
     );
 };

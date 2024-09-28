@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import Home from '../screens/home/Home'
 import { BlurView } from '@react-native-community/blur'
+import Home from '../screens/home/Home'
 import Account from '../screens/account/Account'
 
 const Tab = createBottomTabNavigator()

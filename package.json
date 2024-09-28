@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@bitauth/libauth": "1.19.1",
-    "@ethersproject/shims": "5.7.0",
+    "@ethersproject/shims": "^5.7.0",
     "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-native-community/blur": "^4.4.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -24,7 +24,7 @@
     "@reown/appkit-ethers5-react-native": "^1.0.0",
     "@walletconnect/react-native-compat": "^2.16.2",
     "@web3modal/react-native": "^1.0.0-alpha.8",
-    "ethers": "5.7.2",
+    "ethers": "^6.13.2",
     "js-sha512": "^0.9.0",
     "ky": "^1.7.2",
     "react": "18.2.0",
