@@ -15,8 +15,8 @@ export function loadWalletFromMnemonics(mnemonics: any) {
         throw new Error instanceof Array
     } else if (mnemonics instanceof Array) {
         mnemonics = mnemonics.join(' ');
-        const wallet = HDNodeWallet.fromMnemonic(mnemonics);
-        wallet.provider = provider;
+        const wallet = ethers.Wallet.fromMnemonic(mnemonics);
+        // wallet.provider = provider;
         return wallet;
     }
 }

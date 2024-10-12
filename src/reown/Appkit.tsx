@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ethers } from 'ethers'; 
 import { AppKit } from "@reown/appkit-ethers5-react-native";
 import { useAppKitProvider } from '@reown/appkit-ethers5-react-native'
-import ConnectView from "../services/walletService";
+import ConnectView from "./services/walletService";
 
 
 const App = () => {

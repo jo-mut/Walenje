@@ -3,7 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { BlurView } from '@react-native-community/blur'
 import Home from '../screens/home/Home'
-import Account from '../screens/account/Account'
+import Account from '../screens/account/profile/Profile'
+import Market from '../screens/markets/Market'
+import News from '../screens/news/News'
+import Profile from '../screens/account/profile/Profile'
+import { COLORS } from '../theme/theme'
+import CustomIcons from '../icons/CustomIcons'
+import Icon from 'react-native-vector-icons/';
 
 const Tab = createBottomTabNavigator()
 
@@ -21,8 +27,50 @@ const TabNavigator = () => {
           style={styles.tabBarStyle} />
       ),
     }}>
-      <Tab.Screen name='home'  component={Home}></Tab.Screen>
-      <Tab.Screen name='account'  component={Account}></Tab.Screen>
+
+      <Tab.Screen
+        name='Home'
+        component={Market}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <CustomIcons
+              name='wallet'
+              size={25}
+              color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex} />)
+        }}></Tab.Screen>
+      <Tab.Screen
+        name='Wallet'
+        component={Home}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <CustomIcons
+              name='wallet'
+              size={25}
+              color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex} />
+          )
+        }}></Tab.Screen>
+      <Tab.Screen
+        name='News'
+        component={News}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <CustomIcons
+              name='news'
+              size={25}
+              color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex} />
+          )
+        }}></Tab.Screen>
+      <Tab.Screen
+        name='Profile'
+        component={Profile}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <CustomIcons
+              name='account'
+              size={25}
+              color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex} />
+          )
+        }}></Tab.Screen>
     </Tab.Navigator >
   )
 }

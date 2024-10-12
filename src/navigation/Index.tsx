@@ -1,9 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from "./TabNavigation";
-import { CreateWallet } from "../screens/setups/CreateWallet";
-import { CreateMnemonic } from "../screens/setups/CreateMnemonic";
-import { ConfirmMnemonic } from "../screens/setups/ConfirmMnemonic";
+import { CreateWallet } from "../screens/setup/CreateWallet";
+import { CreateMnemonic } from "../screens/setup/CreateMnemonic";
+import { ConfirmMnemonic } from "../screens/setup/ConfirmMnemonic";
+import { ImportWallet } from "../screens/setup/ImportWallet";
 
 
 
@@ -13,6 +14,7 @@ export type RootStackParamList = {
     CreateWallet: undefined;
     CreateMnemonic: undefined;
     ConfirmMnemonic: undefined;
+    ImportWallet: undefined;
 };
 
 
@@ -27,7 +29,9 @@ const NavigationRoot = () => {
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
                 <Stack.Screen name='CreateWallet' component={CreateWallet}
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
-                    <Stack.Screen name='ConfirmMnemonic' component={ConfirmMnemonic}
+                <Stack.Screen name='ConfirmMnemonic' component={ConfirmMnemonic}
+                    options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+                <Stack.Screen name='ImportWallet' component={ImportWallet}
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
                 <Stack.Screen name='Tabs' component={TabNavigator}
                     options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
