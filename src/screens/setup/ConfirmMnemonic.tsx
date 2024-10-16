@@ -6,11 +6,11 @@ import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../../theme
 import Button from '../../components/Button';
 import isValidSequence from '../../components/ConfirmBox'
 import ConfirmBox from '../../components/ConfirmBox';
-import { ethers } from 'ethers';
 
 
-const navigateToLandingPage = (navigation: any) => {
-    navigation.navigate('Tabs');
+const navigateToLandingPage = (navigation: any, fromAccount: any) => {
+    console.log("loaded wallet ", fromAccount)
+    navigation.navigate('Wallet', {fromAccount: fromAccount});
 }
 
 const infoContainer = () => {
@@ -32,9 +32,8 @@ export const ConfirmMnemonic: React.FC = ({ navigation, route }: any) => {
         if(!isValidSequence) return;
         try {
             const wallet = WalletUtils.loadWalletFromMnemonics(seedphrase);
-            console.log("wallet is instance of ethers.Wallet: ", (wallet instanceof ethers.Wallet))
             await WalletsActions.addWallet(wallet);
-            navigateToLandingPage(navigation);
+            navigateToLandingPage(navigation, wallet);
             await WalletsActions.saveWallets();
         } catch (e) {
             console.log('Error confirming seedphrase', e);
@@ -75,10 +74,9 @@ export const ConfirmMnemonic: React.FC = ({ navigation, route }: any) => {
                     mnemonics={seedphrase} />
                 <View style={styles.ButtonContainer}>
                     <Button
-                        backgroundColor={COLORS.primaryOrangeHex}
-                        color={COLORS.primaryWhiteHex}
                         label='Confirm you seedphrase'
                         style={{
+                            backgroundColor: COLORS.primaryOrangeHex,
                             padding: SPACING.space_16,
                             radius: BORDERRADIUS.radius_20,
                         }}

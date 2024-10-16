@@ -1,47 +1,101 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { FONTFAMILY, FONTSIZE } from '../theme/theme';
+import { BORDERRADIUS, SIZE, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
+import IconView from './IconView';
 
 type ButtonProps = {
-    backgroundColor: string;
-    color: string;
-    label: string;
-    onPress: any;
-    style: any;
-    size?: number
+    children?: any
+    theme?: string
+    label?: string;
+    onPress?: any;
+    style?: any;
+    size?: any;
+    type?: string;
+    icon?: any;
+}
+
+
+const buttonType = (type?: string, size?: string) => {
+    const common = {
+        alignItems: 'center',
+        paddingVertical: SPACING.space_15,
+        paddingHorizontal: SPACING.space_15,
+        borderRadius: (type == 'rounded') ? SIZE(size) : BORDERRADIUS.radius_15,
+
+    }
+    switch (type) {
+        case 'rounded':
+            return {
+                width: SIZE(size) * 2,
+                height: SIZE(size) * 2,
+                borderRadius: SIZE(size),
+                backgroundColor: COLORS.primaryGreyHex
+            };
+        case 'secondary':
+            return [
+                { backgroundColor: COLORS.primaryDarkGreyHex },
+                common
+            ];
+        case 'primary':
+            return [
+                { backgroundColor: COLORS.primaryOrangeHex, },
+                common
+            ];
+        default:
+            return [
+                { backgroundColor: COLORS.primaryOrangeHex, },
+                common
+            ];
+    }
+
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
-    backgroundColor,
-    color,
+    children,
+    size,
+    type,
     label,
     onPress,
     style
 }) => {
-    const { buttonStyles } = styles(backgroundColor, color, style);
+    const { buttonStyles } = styles(type, style);
     return (
-        <View style={buttonStyles.Container}>
+        <View>
             <TouchableOpacity onPress={onPress}>
-                <Text style={buttonStyles.Label}>{label}</Text>
+                <View
+                    style={[buttonStyles.Container, buttonType(type, size), style]}>
+                    {(type == 'rounded') ? (
+                        <>{children}</>
+                    ) : (
+                        <Text
+                            style={buttonStyles.Label}>
+                            {label}
+                        </Text>
+                    )}
+                </View>
             </TouchableOpacity>
+            {(type == 'rounded') ? (
+                <Text
+                    style={
+                        [buttonStyles.Label,
+                        { marginTop: SPACING.space_10 }]}>
+                    {label}
+                </Text>
+            ) : (
+                <></>
+            )}
         </View>
     )
 }
 
-export default Button
-
-const styles: any = (backgroundColor: string, color: string, style: any) => {
+const styles: any = () => {
     const buttonStyles = StyleSheet.create({
         Container: {
-            backgroundColor: backgroundColor,
-            padding: style.padding,
-            borderRadius: style.radius,
-            alignContent: 'center',
+            alignItems: 'center',
             justifyContent: 'center',
         },
-
         Label: {
-            color: color,
+            color: COLORS.primaryWhiteHex,
             fontFamily: FONTFAMILY.poppins_bold,
             fontSize: FONTSIZE.size_16,
             textAlign: 'center'
@@ -50,3 +104,5 @@ const styles: any = (backgroundColor: string, color: string, style: any) => {
 
     return { buttonStyles };
 }
+
+export default Button

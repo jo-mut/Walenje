@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { BlurView } from '@react-native-community/blur'
-import Home from '../screens/home/Home'
 import Account from '../screens/account/profile/Profile'
 import Market from '../screens/markets/Market'
 import News from '../screens/news/News'
@@ -10,6 +9,7 @@ import Profile from '../screens/account/profile/Profile'
 import { COLORS } from '../theme/theme'
 import CustomIcons from '../icons/CustomIcons'
 import Icon from 'react-native-vector-icons/';
+import { Wallet } from '../screens/wallet/Wallet'
 
 const Tab = createBottomTabNavigator()
 
@@ -29,18 +29,18 @@ const TabNavigator = () => {
     }}>
 
       <Tab.Screen
-        name='Home'
+        name='Markets'
         component={Market}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <CustomIcons
-              name='wallet'
+              name='market'
               size={25}
               color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex} />)
         }}></Tab.Screen>
       <Tab.Screen
         name='Wallet'
-        component={Home}
+        component={Wallet}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <CustomIcons

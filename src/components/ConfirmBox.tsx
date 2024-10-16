@@ -43,27 +43,35 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ mnemonics }) => 
 
     const renderSelected = () => {
         return (
-            <View style={styles.Mnemonics}>
-                {selected.map((mnemonic, index) => renderMnemonic(mnemonic, index, false))}
-            </View>
+            <>
+                {(selected.length > 0) ?
+                    <View style={styles.Mnemonics}>
+                        {selected.map((mnemonic, index) => renderMnemonic(mnemonic, index, false))}
+                    </View> :
+                    <></>
+                }
+            </>
         )
     }
 
     const renderSelectable = () => {
         return (
-            <View style={styles.Mnemonics}>
+            <>
                 {selectable.length > 0 ? (
-                    <Text style={styles.InfoTextDescription}>
-                        Select each word in the order it was presented to you
-                    </Text>
+                    <View style={styles.Mnemonics}>
+
+                        <Text style={styles.InfoTextDescription}>
+                            Select each word in the order it was presented to you
+                        </Text>
+                        {selectable.map((mnemonic, index) =>
+                            renderMnemonic(mnemonic, index, true)
+                        )}
+                    </View>
                 ) : (
                     <></>
-                )
-                }
-                {selectable.map((mnemonic, index) =>
-                    renderMnemonic(mnemonic, index, true)
                 )}
-            </View>
+            </>
+
         )
     }
 
@@ -100,7 +108,8 @@ const styles = StyleSheet.create({
     Mnemonic: {
         backgroundColor: COLORS.secondaryDarkGreyHex,
         borderRadius: SPACING.space_10,
-        padding: 4,
+        paddingVertical: SPACING.space_4,
+        paddingHorizontal: SPACING.space_15,
         marginVertical: 4,
         marginHorizontal: 8
     },

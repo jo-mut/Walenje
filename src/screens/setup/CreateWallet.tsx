@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Index';
 import Button from '../../components/Button';
 import { BORDERRADIUS, COLORS, SPACING } from '../../theme/theme';
+import PageNav from '../../components/PageNav';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'CreateWallet'>;
@@ -22,16 +23,15 @@ export const CreateWallet: React.FC<Props> = ({ navigation }: any) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
+             <View style={styles.container}>
                 <View style={{flex: 1}}>
 
                 </View>
                 <View>
                     <Button
-                        backgroundColor={COLORS.primaryGreyHex}
-                        color={COLORS.primaryWhiteHex}
                         label='Import using seed phrase'
                         style={{
+                            backgroundColor: COLORS.primaryGreyHex,
                             padding: SPACING.space_16,
                             radius: 20,
                         }}
@@ -41,10 +41,9 @@ export const CreateWallet: React.FC<Props> = ({ navigation }: any) => {
 
                 <View style={styles.CreateWalletContainer}>
                     <Button
-                        backgroundColor={COLORS.primaryOrangeHex}
-                        color={COLORS.primaryWhiteHex}
                         label='Create new wallet'
                         style={{
+                            backgroundColor: COLORS.primaryOrangeHex,
                             padding: SPACING.space_16,
                             radius: BORDERRADIUS.radius_20,
                         }}

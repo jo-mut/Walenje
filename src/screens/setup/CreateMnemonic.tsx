@@ -37,7 +37,7 @@ export const CreateMnemonic: React.FunctionComponent = ({ navigation }: any) => 
           scrollEnabled={false}
           renderItem={({ item, index }) =>
             <View style={styles.PhraseContainer}>
-              <Text style={styles.Phrase}>{index + ". " + item}</Text>
+              <Text style={styles.Phrase}>{(index + 1) + ". " + item}</Text>
             </View>
           }
         />
@@ -81,10 +81,9 @@ export const CreateMnemonic: React.FunctionComponent = ({ navigation }: any) => 
         {renderSeedPhrase()}
         <View style={styles.ButtonContainer}>
           <Button
-            backgroundColor={COLORS.primaryOrangeHex}
-            color={COLORS.primaryWhiteHex}
             label='Continue'
             style={{
+              backgroundColor: COLORS.primaryOrangeHex,
               padding: SPACING.space_16,
               radius: BORDERRADIUS.radius_20,
             }}
@@ -125,12 +124,9 @@ const styles = StyleSheet.create({
     gap: SPACING.space_10,
   },
   SeedPhraseContainer: {
-    paddingHorizontal: 20,
     paddingVertical: 20,
     marginTop: SPACING.space_30,
     borderColor: COLORS.primaryGreyHex,
-    borderRadius: SPACING.space_16,
-    borderWidth: 1,
   },
   PhraseContainer: {
     flex: 1 / 2,

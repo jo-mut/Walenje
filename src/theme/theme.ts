@@ -32,6 +32,26 @@ export const SPACING: Spacing = {
   space_36: 36,
 };
 
+export const SIZE = (size?: string) => {
+  switch (size) {
+      case 'xxsmall':
+          return 18
+      case 'xsmall':
+          return 20
+      case 'small':
+          return 24
+      case 'medium':
+          return 28
+      case 'large':
+          return 32
+      case 'xlarge':
+          return 36
+      default:
+          return 24
+  }
+}
+
+
 interface Color {
   primaryRedHex: string;
   primaryOrangeHex: string;
