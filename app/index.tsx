@@ -1,6 +1,11 @@
 import { Redirect } from "expo-router";
-import { Text, View } from "react-native";
+import { useState } from "react";
 
 export default function Index() {
-  return <Redirect href={'/(root)/(tabs)/home'} />
+  const [account, setAccount] = useState<boolean>(false);
+
+  if (account) {
+    return <Redirect href={'/(root)/(tabs)/home'}/>
+  } 
+  return <Redirect href={'/(auth)/sign-up'} />
 }

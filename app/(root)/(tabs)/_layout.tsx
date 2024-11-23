@@ -2,12 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import TabIcon from '../../components/TabIcon'
-import { icons, Colors } from '../../constants'
 
 const Layout = () => {
     return (
         <Tabs
-            initialRouteName='index'
+            initialRouteName='home'
             screenOptions={{
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'white',
@@ -38,9 +37,9 @@ const Layout = () => {
                 }} />
 
             <Tabs.Screen
-                name='messages'
+                name='tokens'
                 options={{
-                    title: 'Message',
+                    title: 'Tokens',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
                         <TabIcon focused={focused}
@@ -48,9 +47,9 @@ const Layout = () => {
                 }} />
 
             <Tabs.Screen
-                name='explore'
+                name='swap'
                 options={{
-                    title: 'Explore',
+                    title: 'Swap',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
                         <TabIcon focused={focused}
@@ -58,9 +57,9 @@ const Layout = () => {
                 }} />
 
             <Tabs.Screen
-                name='browser'
+                name='dapps'
                 options={{
-                    title: 'Browser',
+                    title: 'Dapps',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
                         <TabIcon focused={focused}
