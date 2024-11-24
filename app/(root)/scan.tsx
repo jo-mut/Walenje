@@ -1,12 +1,9 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import PageNav from '@/app/components/PageNav'
 
-const Swap = () => {
+const Scan = () => {
   return (
     <SafeAreaView className='flex-1 bg-black'>
-      <PageNav
-        title='Swap' />
       <View className='flex-1'>
 
       </View>
@@ -14,6 +11,6 @@ const Swap = () => {
   )
 }
 
-export default Swap
+export default Scan
 
 const styles = StyleSheet.create({})

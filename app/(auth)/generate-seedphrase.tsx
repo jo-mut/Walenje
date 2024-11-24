@@ -12,17 +12,17 @@ export default function GenerateSeedPhrase() {
   const navigateToConfirmSeedphrase = () => {
     return router.push({
       pathname: "/(auth)/confirm-seedphrase",
-      params: {  seedphrase: JSON.stringify(seedphrase) }
+      params: { seedphrase: JSON.stringify(seedphrase) }
     });
   }
 
   const infoContainer = () => {
     return (
-      <View style={styles.InfoContainer}>
-        <Text style={styles.InfoTextTitle}>
+      <View className='items-center justify-center'>
+        <Text className='text-primaryOrangeHex text-2xl font-[600]'>
           Write down your seedphrase
         </Text>
-        <Text style={styles.InfoTextDescription}>
+        <Text className='text-white text-center p-5'>
           This is your seed phrase. Writeit down on a paper and keep it in a
           safe place. You'll be asked to re-enter this phrase (in-order) on
           the next step for confirmation.
@@ -33,18 +33,12 @@ export default function GenerateSeedPhrase() {
 
   const displaySeedPhrase = () => {
     return (
-      <View style={styles.SeedPhraseContainer}>
-        <FlatList
-          data={seedphrase}
-          numColumns={2}
-          columnWrapperStyle={styles.FlatListWrapperStyle}
-          scrollEnabled={false}
-          renderItem={({ item, index }) =>
-            <View style={styles.PhraseContainer}>
-              <Text style={styles.Phrase}>{(index + 1) + ". " + item}</Text>
-            </View>
-          }
-        />
+      <View className='flex flex-row justify-center flex-wrap gap-6 m-5'>
+        {seedphrase.map((item, index) => (
+          <View className='bg-primaryGreyHex p-3 rounded-xl'>
+            <Text className='text-white'>{(index + 1) + ". " + item}</Text>
+          </View>
+        ))}
       </View>
     )
   }
@@ -80,18 +74,14 @@ export default function GenerateSeedPhrase() {
   }, [])
 
   return (
-    <SafeAreaView style={styles.Container}>
-      <View style={styles.Container}>
+    <SafeAreaView className='flex-1 bg-black'>
+      <View className='flex-1'>
         {infoContainer()}
         {renderSeedPhrase()}
-        <View style={styles.ButtonContainer}>
+        <View className='flex-1 justify-end m-5'>
           <Button
             label='Continue'
-            style={{
-              backgroundColor: Colors.primaryOrangeHex,
-              padding: Spacing.space_16,
-              radius: BorderRadius.radius_20,
-            }}
+            bgVariant='primary'
             onPress={() => navigateToConfirmSeedphrase()}>
           </Button>
         </View>
@@ -101,55 +91,3 @@ export default function GenerateSeedPhrase() {
 
 }
 
-
-const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: 'black',
-    flex: 1,
-    paddingHorizontal: Spacing.space_30
-  },
-  InfoContainer: {
-    alignContent: 'center'
-  },
-  InfoTextTitle: {
-    color: Colors.primaryOrangeHex,
-    fontSize: Spacing.space_20,
-    fontFamily: FontFamily.poppins_semibold,
-    textAlign: 'center',
-    fontWeight: '600'
-  },
-  InfoTextDescription: {
-    marginTop: Spacing.space_10,
-    color: Colors.secondaryLightGreyHex,
-    fontSize: Spacing.space_15,
-    textAlign: 'center'
-  },
-  FlatListWrapperStyle: {
-    flex: 1,
-    gap: Spacing.space_10,
-  },
-  SeedPhraseContainer: {
-    paddingVertical: 20,
-    marginTop: Spacing.space_30,
-    borderColor: Colors.primaryGreyHex,
-  },
-  PhraseContainer: {
-    flex: 1 / 2,
-    marginTop: Spacing.space_10,
-    backgroundColor: Colors.primaryGreyHex,
-    borderRadius: Spacing.space_12,
-    paddingHorizontal: Spacing.space_10,
-    paddingVertical: Spacing.space_8,
-  },
-  Phrase: {
-    textAlign: 'center',
-    color: Colors.secondaryLightGreyHex,
-    fontSize: FontSize.size_14,
-    marginLeft: Spacing.space_4,
-    marginHorizontal: Spacing.space_30
-  },
-  ButtonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end'
-  }
-});

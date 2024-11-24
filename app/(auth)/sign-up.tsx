@@ -1,6 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../components/Button';
 import { BorderRadius, Colors, Spacing,  } from '../theme';
 import PageNav from '../components/PageNav';
@@ -23,11 +22,7 @@ export default function SignUp() {
                 <View>
                     <Button
                         label='Import using seed phrase'
-                        style={{
-                            backgroundColor: Colors.primaryGreyHex,
-                            padding: Spacing.space_16,
-                            radius: 20,
-                        }}
+                        bgVariant='gray'
                         onPress={() => ('')}>
                     </Button>
                 </View>
@@ -35,11 +30,8 @@ export default function SignUp() {
                 <View style={styles.CreateWalletContainer}>
                     <Button
                         label='Create new wallet'
-                        style={{
-                            backgroundColor: Colors.primaryOrangeHex,
-                            padding: Spacing.space_16,
-                            radius: BorderRadius.radius_20,
-                        }}
+                        isBold={true}
+                        bgVariant='primary'
                         onPress={() => onNavigateToCreateMnemonics()}>
                     </Button>
                 </View>

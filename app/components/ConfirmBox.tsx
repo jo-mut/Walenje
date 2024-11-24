@@ -1,7 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import _ from 'lodash';
+import { Wallet as WalletUtils } from '../utils'
+import { Wallets as WalletsActions } from '../common/actions';
 import { BorderRadius, Size, Colors, FontFamily, FontSize, Spacing } from '../theme';
+import { router } from 'expo-router';
+import Button from './Button';
 
 type ConfirmBoxProps = {
     phrase: string[];
@@ -14,6 +18,14 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
 
     const isValidSequence = () => {
         return _.isEqual(phrase, selected)
+    }
+
+    const navigateToLandingPage = (fromAccount: any) => {
+        return router.navigate({
+            pathname: "/(root)/(tabs)/home",
+            params: { fromAccount: fromAccount }
+        })
+
     }
 
     const onPressMnemonic = (mnemonic: string, isSelected: boolean) => {
@@ -33,8 +45,9 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
                 onPress={() => {
                     onPressMnemonic(mnemonic, true)
                 }}>
-                <View style={styles.Mnemonic}>
-                    <Text style={styles.text}>{mnemonic}</Text>
+                <View className='items-center justify-center bg-primaryGreyHex 
+                rounded-xl'>
+                    <Text className='text-white p-3'>{mnemonic}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -44,7 +57,7 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
         return (
             <>
                 {selected.length > 0 &&
-                    <View style={styles.Mnemonics}>
+                    <View className='flex flex-row justify-center flex-wrap gap-6 my-5'>
                         {selected.map((mnemonic, index) => renderMnemonic(mnemonic, index, false))}
                     </View>
                 }
@@ -56,13 +69,15 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
         return (
             <>
                 {selectable.length > 0 ? (
-                    <View style={styles.Mnemonics}>
-                        <Text style={styles.InfoTextDescription}>
-                            Select each word in the order it was presented to you
+                    <View className='flex-1'>
+                        <Text className='text-white text-center m-10'>
+                            Select each word in the order it was presented to you in the previous screen
                         </Text>
-                        {selectable.map((mnemonic, index) =>
-                            renderMnemonic(mnemonic, index, true)
-                        )}
+                        <View className='flex flex-row justify-center flex-wrap gap-6 my-5'>
+                            {selectable.map((mnemonic, index) =>
+                                renderMnemonic(mnemonic, index, true)
+                            )}
+                        </View>
                     </View>
                 ) : (
                     <></>
@@ -72,59 +87,36 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
         )
     }
 
+    const onPressConfirm = async () => {
+        if (isValidSequence()) {
+            try {
+                const wallet = await WalletUtils.loadWalletFromMnemonics(phrase);
+                await WalletsActions.addWallet(wallet);
+                await WalletsActions.saveWallets();
+                navigateToLandingPage(wallet);
+            } catch (e) {
+                console.log('Error confirming seedphrase', e);
+            }
+        } else {
+            Alert.alert(
+                'Please confirm your seedphrase'
+            );
+        }
+    }
+
     return (
-        <View style={styles.Container}>
+        <View className='flex-1'>
             {renderSelected()}
             {renderSelectable()}
+            <View className='flex-1 justify-end m-5'>
+                <Button
+                    label='Confirm you seedphrase'
+                    bgVariant='primary'
+                    onPress={() => onPressConfirm()}>
+                </Button>
+            </View>
         </View>
     )
 }
 
 export default ConfirmBox
-
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: 'black',
-        alignItems: 'center',
-        marginTop: Spacing.space_36,
-    },
-    Mnemonics: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        margin: 4,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingVertical: 20,
-        marginTop: Spacing.space_30,
-        borderColor: Colors.primaryGreyHex,
-        borderRadius: Spacing.space_16,
-        borderWidth: 1,
-    },
-    Mnemonic: {
-        backgroundColor: Colors.secondaryDarkGreyHex,
-        borderRadius: Spacing.space_10,
-        paddingVertical: Spacing.space_4,
-        paddingHorizontal: Spacing.space_15,
-        marginVertical: 4,
-        marginHorizontal: 8
-    },
-    text: {
-        color: Colors.primaryWhiteHex,
-    },
-    ConfirmContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: Spacing.space_20,
-        borderRadius: BorderRadius.radius_20,
-        minHeight: 100,
-        width: '100%'
-    },
-    InfoTextDescription: {
-        marginVertical: Spacing.space_10,
-        color: Colors.secondaryLightGreyHex,
-        fontSize: Spacing.space_15,
-        textAlign: 'center'
-    },
-});

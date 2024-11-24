@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
-import TabIcon from '../../components/TabIcon'
+import IconView from '../../components/IconView'
+import { Colors } from '@/app/theme'
 
 const Layout = () => {
     return (
@@ -12,18 +13,13 @@ const Layout = () => {
                 tabBarInactiveTintColor: 'white',
                 tabBarShowLabel: false,
                 tabBarStyle: {
-                    backgroundColor: "#333333",
-                    borderRadius: 20,
-                    paddingBottom: 0,
+                    backgroundColor: Colors.primaryDarkGreyHex,
                     overflow: 'hidden',
-                    marginHorizontal: 10,
-                    marginBottom: 20,
-                    height: 56,
+                    height: 78,
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     flexDirection: 'row',
-                    position: 'absolute'
                 }
             }}>
             <Tabs.Screen
@@ -32,8 +28,12 @@ const Layout = () => {
                     title: 'Home',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
-                        <TabIcon focused={focused}
-                            icon='' />
+                        <IconView
+                            iconType="MaterialCommunityIcons"
+                            iconName="home"
+                            size={24}
+                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                        />
                 }} />
 
             <Tabs.Screen
@@ -42,8 +42,12 @@ const Layout = () => {
                     title: 'Tokens',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
-                        <TabIcon focused={focused}
-                            icon='' />
+                        <IconView
+                            iconType="MaterialCommunityIcons"
+                            iconName="check"
+                            size={24}
+                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                        />
                 }} />
 
             <Tabs.Screen
@@ -52,8 +56,12 @@ const Layout = () => {
                     title: 'Swap',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
-                        <TabIcon focused={focused}
-                            icon='' />
+                        <IconView
+                            iconType="MaterialCommunityIcons"
+                            iconName="swap-horizontal"
+                            size={24}
+                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                        />
                 }} />
 
             <Tabs.Screen
@@ -62,8 +70,12 @@ const Layout = () => {
                     title: 'Dapps',
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
-                        <TabIcon focused={focused}
-                            icon='' />
+                        <IconView
+                            iconType="MaterialCommunityIcons"
+                            iconName="check"
+                            size={24}
+                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                        />
                 }} />
 
         </Tabs >

@@ -5,104 +5,46 @@ import IconView from './IconView';
 
 type ButtonProps = {
     children?: any
-    theme?: string
     label?: string;
     onPress?: any;
-    style?: any;
-    size?: any;
-    type?: string;
-    icon?: any;
-}
-
-
-const buttonType = (type?: string, size?: string) => {
-    const common = {
-        alignItems: 'center',
-        paddingVertical: Spacing.space_15,
-        paddingHorizontal: Spacing.space_15,
-        borderRadius: (type == 'rounded') ? Size(size) : BorderRadius.radius_15,
-
-    }
-    switch (type) {
-        case 'rounded':
-            return {
-                width: Size(size) * 2,
-                height: Size(size) * 2,
-                borderRadius: Size(size),
-                backgroundColor: Colors.primaryGreyHex
-            };
-        case 'secondary':
-            return [
-                { backgroundColor: Colors.primaryDarkGreyHex },
-                common
-            ];
-        case 'primary':
-            return [
-                { backgroundColor: Colors.primaryOrangeHex, },
-                common
-            ];
-        default:
-            return [
-                { backgroundColor: Colors.primaryOrangeHex, },
-                common
-            ];
-    }
-
+    bgVariant?: string
+    isBold?: boolean
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
     children,
-    size,
-    type,
     label,
     onPress,
-    style
+    bgVariant,
+    isBold,
 }) => {
-    const { buttonStyles } = styles(type, style);
+
+    const getBackground = (variant?: string) => {
+        switch (variant) {
+            case 'outline':
+                return ''
+            case 'gray':
+                return 'bg-primaryGreyHex'
+            case 'primary':
+                return 'bg-primaryOrangeHex'    
+        }
+        return ''
+    }
+
     return (
-        <View>
+        <View className={`rounded-2xl p-2 items-center justify-center 
+        ${getBackground(bgVariant)}`}>
             <TouchableOpacity onPress={onPress}>
-                <View
-                    style={[buttonStyles.Container, buttonType(type, size), style]}>
-                    {(type == 'rounded') ? (
-                        <>{children}</>
-                    ) : (
-                        <Text
-                            style={buttonStyles.Label}>
-                            {label}
-                        </Text>
-                    )}
+                <View className='justify-center items-center p-3'>
+                    {children}
+                    <Text className={`mt-2 text-white ${isBold && 'font-[600]'}`}>
+                        {label}
+                    </Text>
                 </View>
             </TouchableOpacity>
-            {(type == 'rounded') ? (
-                <Text
-                    style={
-                        [buttonStyles.Label,
-                        { marginTop: Spacing.space_10 }]}>
-                    {label}
-                </Text>
-            ) : (
-                <></>
-            )}
         </View>
     )
 }
 
-const styles: any = () => {
-    const buttonStyles = StyleSheet.create({
-        Container: {
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        Label: {
-            color: Colors.primaryWhiteHex,
-            fontFamily: FontFamily.poppins_bold,
-            fontSize: FontSize.size_16,
-            textAlign: 'center'
-        },
-    })
-
-    return { buttonStyles };
-}
 
 export default Button
