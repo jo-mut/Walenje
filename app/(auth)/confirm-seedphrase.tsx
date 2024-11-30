@@ -21,8 +21,6 @@ const infoContainer = () => {
 export default function ConfirmSeedPhrase() {
     const { seedphrase }: any = useLocalSearchParams();
     const phrase: string[] = JSON.parse(seedphrase);
-    console.log("phrase", JSON.parse(seedphrase));
-
     return (
         <SafeAreaView className='flex-1 bg-black'>
             <View className='flex-1 bg-black'>

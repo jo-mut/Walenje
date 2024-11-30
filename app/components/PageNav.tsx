@@ -44,10 +44,10 @@ const PageNav: React.FC<PageNavProps> = ({
         )
     }
 
-    const scan = (onPress: any) => {
+    const scan = () => {
         return (
             <TouchableOpacity
-                onPress={onPress}>
+                onPress={navigateToScan}>
                 <IconView
                     iconType="MaterialCommunityIcons"
                     iconName='scan-helper'
@@ -65,7 +65,7 @@ const PageNav: React.FC<PageNavProps> = ({
                 style={styles.Title}>
                 {title}
             </Text>
-            {scan('')}
+            {scan()}
         </View>
     )
 }

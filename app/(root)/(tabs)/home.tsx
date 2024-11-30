@@ -14,7 +14,7 @@ export default function Home() {
     const fromAccount: any = useLocalSearchParams();
     const router = useRouter();
 
-    const navigateToScreen = (path: any) => {
+    const navigateToTransactScreens = (path: any) => {
         return router.push({
             pathname: path,
             params: { address: fromAccount }
@@ -30,11 +30,11 @@ export default function Home() {
         return () => backHandler.remove();
     }, []);
 
-    
+
     return (
         <SafeAreaView className='flex-1 bg-black'>
             <PageNav
-                title='Wallet' />
+                title='Wallet'/>
             <View className={`items-center justify-center mx-5 p-10 mt-5 
                 bg-primaryGreyHex rounded-2xl`}>
                 <Text className='text-xs text-white'>Balance</Text>
@@ -54,7 +54,7 @@ export default function Home() {
                             />}
                         label='Send'
                         onPress={() => {
-                            navigateToScreen('/send')
+                            navigateToTransactScreens('/send')
                         }} />
                 </View>
                 <View className={`flex-1 justify-center items-center 
@@ -69,7 +69,7 @@ export default function Home() {
                             />}
                         label='Receive'
                         onPress={() => {
-                            navigateToScreen('/receive')
+                            navigateToTransactScreens('/receive')
                         }} />
                 </View>
             </View>

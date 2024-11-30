@@ -25,6 +25,10 @@ export class WalletStore implements IWalletStore {
         this.loading = Boolean(state)
     }
 
+    @action isEmpty() {
+        return this.item != null
+    }
+
     @action select(wallet: Wallet) {
         if (!(wallet instanceof ethers.Wallet)) throw new Error('Invalid Wallet');
         this.item = wallet;

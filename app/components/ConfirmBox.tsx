@@ -73,7 +73,7 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
                         <Text className='text-white text-center m-10'>
                             Select each word in the order it was presented to you in the previous screen
                         </Text>
-                        <View className='flex flex-row justify-center flex-wrap gap-6 my-5'>
+                        <View className='flex flex-row justify-center flex-wrap gap-6 m-5'>
                             {selectable.map((mnemonic, index) =>
                                 renderMnemonic(mnemonic, index, true)
                             )}
