@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import IconView from '../../components/IconView'
 import { Colors } from '@/app/theme'
+import { Icons } from '@/app/components/icons'
 
 const Layout = () => {
     return (
@@ -14,8 +15,7 @@ const Layout = () => {
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     backgroundColor: Colors.primaryDarkGreyHex,
-                    overflow: 'hidden',
-                    height: 78,
+                    overflow: 'hidden',                
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -32,7 +32,7 @@ const Layout = () => {
                             iconType="MaterialCommunityIcons"
                             iconName="home"
                             size={24}
-                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                            color={focused ? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
                         />
                 }} />
 
@@ -43,10 +43,10 @@ const Layout = () => {
                     headerShown: false,
                     tabBarIcon: ({ focused }) =>
                         <IconView
-                            iconType="MaterialCommunityIcons"
-                            iconName="check"
+                            icon={Icons.nft}
+                            iconName="NFTs"
                             size={24}
-                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                            color={focused ? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
                         />
                 }} />
 
@@ -60,24 +60,9 @@ const Layout = () => {
                             iconType="MaterialCommunityIcons"
                             iconName="swap-horizontal"
                             size={24}
-                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
+                            color={focused ? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
                         />
                 }} />
-
-            <Tabs.Screen
-                name='dapps'
-                options={{
-                    title: 'Dapps',
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) =>
-                        <IconView
-                            iconType="MaterialCommunityIcons"
-                            iconName="check"
-                            size={24}
-                            color={focused? Colors.primaryOrangeHex : Colors.primaryWhiteHex}
-                        />
-                }} />
-
         </Tabs >
     )
 }

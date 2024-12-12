@@ -16,7 +16,8 @@ const Scanner = (props: any) => {
         onCodeScanned: (codes: any) => {
             console.log(`onCodeScanned`, codes);
             console.log(`onCodeScanned value`, codes[0].value);
-            props.onRead(codes[0].value);
+            const value: string = codes[0].value.substring(codes[0].value.indexOf(":") + 1)
+            props.onRead(value);
         },
     });
 

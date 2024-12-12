@@ -3,23 +3,27 @@ import { action, observable } from "mobx"
 
 const INITIAL_STATE = {
     list: [],
+    currentWallet: {},
     loading: false,
 }
 
 
-export class WalletsStore {
+class WalletsStore {
     @observable list: any[] = INITIAL_STATE.list;
     @observable loading = INITIAL_STATE.loading;
+    @observable currentWallet = INITIAL_STATE.currentWallet
 
     @action isLoading = (state: boolean) =>{
         this.loading = Boolean(state)
     }
 
     @action addWallet = (wallet: any) => {
-        console.log(wallet)
-        if(!(wallet instanceof ethers.Wallet)) throw new Error('Invalid Wallet');
+        console.log("added  wallet", wallet);
+        // if(!(wallet instanceof ethers.Wallet)) throw new Error('Invalid Wallet');
         // wallet.name = walletName;
         // wallet.description = walletDescription;
+        this.currentWallet = wallet;
+        console.log("added  currentWallet", this.currentWallet);
         this.list.push(wallet);
     }
 

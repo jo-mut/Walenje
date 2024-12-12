@@ -1,6 +1,8 @@
 import {wallet as WalletStore, wallets as WalletsStore } from "../../stores"
 import {Wallets as WalletsService} from '../../services'
 import {Wallet as WalletUtils} from '../../utils'
+import {Api as ApiService} from '../../services'
+import { ethers } from "ethers"
 
 
 export async function addWallet(wallet: any) {
@@ -11,11 +13,11 @@ export async function addWallet(wallet: any) {
 
 export async function loadWallets() {
     WalletsStore.isLoading(true);
-    const pks: any[] = await WalletsService.loadWalletPKs();
+    const pks: ethers.Wallet[] = await WalletsService.loadWallet();
+    console.log(" loaded wallet pks",pks);
     pks.map(pk => {
-        console.log('actions/wallets: ', pk)
-        const wallet = WalletUtils.loadWalletFromPrivateKey(pk);
-        WalletsStore.addWallet(wallet);
+        console.log("loaded  pk", pk);
+        WalletsStore.addWallet(pk);
     });
     WalletsStore.isLoading(false);
 }
@@ -30,16 +32,16 @@ export async function removeWallet(wallet: any) {
 }
 
 export async function saveWallets() {
-    await WalletsService.saveWalletPKs(WalletsStore.list);
+    await WalletsService.saveWallet(WalletsStore.list);
 }
 
 export async function selectWallet(wallet: any) {
     WalletStore.select(wallet);
 }
 
-// export async function updateHistory(wallet:any) {
-//     WalletStore.isLoading(true);
-//     const { data } = await ApiService.getHistory(wallet.getAddress());
-//     if (data.status == 1) WalletStore.setHistory(data.result);
-//     WalletStore.isLoading(false);
-// }
+export async function updateHistory(wallet:any) {
+    WalletStore.isLoading(true);
+    const { data } = await ApiService.getHistory(wallet.getAddress());
+    if (data.status == 1) WalletStore.setHistory(data.result);
+    WalletStore.isLoading(false);
+}

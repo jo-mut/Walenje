@@ -1,7 +1,6 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Wallet as WalletUtils } from '../utils'
-import { Wallets as WalletsActions } from '../common/actions';
 import { BorderRadius, Colors, FontFamily, FontSize, Spacing } from '../theme';
 import Button from '../components/Button';
 import ConfirmBox from '../components/ConfirmBox';

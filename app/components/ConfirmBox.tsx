@@ -2,7 +2,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import _ from 'lodash';
 import { Wallet as WalletUtils } from '../utils'
-import { Wallets as WalletsActions } from '../common/actions';
+import { Wallet as WalletsActions } from '../common/actions';
 import { BorderRadius, Size, Colors, FontFamily, FontSize, Spacing } from '../theme';
 import { router } from 'expo-router';
 import Button from './Button';
@@ -20,10 +20,10 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
         return _.isEqual(phrase, selected)
     }
 
-    const navigateToLandingPage = (fromAccount: any) => {
+    const navigateToLandingPage = (fromAddress: any) => {
         return router.navigate({
             pathname: "/(root)/(tabs)/home",
-            params: { fromAccount: fromAccount }
+            params: { fromAddress: fromAddress }
         })
 
     }

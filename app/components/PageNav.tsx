@@ -7,13 +7,15 @@ import { router } from 'expo-router';
 
 interface PageNavProps {
     title?: string
-    left?: any,
-    right?: any,
+    back?: boolean
+    avatar?: boolean
+    close?: boolean
 }
 
 const PageNav: React.FC<PageNavProps> = ({
-    left,
-    right,
+    back,
+    close,
+    avatar,
     title,
 }) => {
 
@@ -74,7 +76,6 @@ export default PageNav
 
 const styles = StyleSheet.create({
     Container: {
-        marginHorizontal: Spacing.space_20,
         paddingVertical: Spacing.space_10,
         flexDirection: 'row',
         backgroundColor: Colors.primaryBlackRGBA,

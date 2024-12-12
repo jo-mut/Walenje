@@ -1,0 +1,1 @@
+["^ ","~$room",["^ ","~:row",10,"~:col",1,"~:fixed-arities",["~#set",[1]],"~:name","^0","~:ns","~$app.room","~:top-ns","^7","~:arities",["^ ","~i1",["^ ","~:ret","~:vector","~:arglist-str","[children]"]],"~:type","~:fn"],"~:filename","/Users/john/Documents/developer/web/clojure/nxt_figma_clone/src/app/room.cljs"]

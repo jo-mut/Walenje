@@ -9,6 +9,9 @@ export default function RootLayout() {
       <Stack.Screen name="scan" options={{headerShown: false}} />
       <Stack.Screen name="send" options={{ headerShown: false }} />
       <Stack.Screen name="receive" options={{ headerShown: false }} />
+      <Stack.Screen name="enter-amount" options={{ headerShown: false }} />
+      <Stack.Screen name="confirm-transaction" options={{ headerShown: false }} />
+      <Stack.Screen name="receive-transaction" options={{ headerShown: false }} />
     </Stack>
   )
 }

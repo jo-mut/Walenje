@@ -1,0 +1,1 @@
+["^ ","~$cursor",["^ ","~:row",5,"~:col",1,"~:fixed-arities",["~#set",[1]],"~:name","^0","~:ns","~$app.components.cursors.cursor","~:top-ns","^7","~:arities",["^ ","~i1",["^ ","~:ret","~:vector","~:arglist-str","[{:keys [x y color message]}]"]],"~:type","~:fn"],"~:filename","/Users/john/Documents/developer/web/clojure/nxt_figma_clone/src/app/components/cursors/cursor.cljs"]

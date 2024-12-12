@@ -3,7 +3,7 @@ import { BigNumber, utils } from "ethers";
 const DEFAULT_GASLIMIT = 21000;
 const DEFAULT_GAS_PRICE = 4000000000; // 4 gewi
 
-export const createTranction = (to: string, value: string, options: any, gasLimit = DEFAULT_GASLIMIT) => {
+export const createTransaction = (to: string, value: string, options?: any, gasLimit = DEFAULT_GASLIMIT) => {
     if (!value) throw new Error('The transaction value is required');
     else if (!(Number(value) > 0)) throw new Error('The transaction value is invalid');
     else if (isNaN(gasLimit)) gasLimit = DEFAULT_GASLIMIT;

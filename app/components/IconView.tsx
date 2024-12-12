@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -15,13 +15,14 @@ import Zocial from 'react-native-vector-icons/Zocial';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 interface IconProps {
-    iconType: any,
+    iconType?: any,
     iconName: string,
     size: number,
     color: string,
+    icon?: any
 }
 
-const IconView: React.FC<IconProps> = ({ iconType, iconName, size, color }) => {
+const IconView: React.FC<IconProps> = ({ iconType, iconName, size, color, icon }) => {
     // Map the iconType to the appropriate icon library
     const IconMap: any = {
         'AntDesign': AntDesign,
@@ -45,7 +46,13 @@ const IconView: React.FC<IconProps> = ({ iconType, iconName, size, color }) => {
         return <Icon name={iconName} size={size} color={color} />;
     } else {
         // You might want to render a default icon or a placeholder view here
-        return <View />;
+        return <View>
+            <Image
+                source={icon}
+                tintColor={color}
+                resizeMode='contain'
+                className='w-6 h-6'/>
+        </View>;
     }
 };
 

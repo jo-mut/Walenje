@@ -4002,6 +4002,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.7.8":
+  version: 1.7.8
+  resolution: "axios@npm:1.7.8"
+  dependencies:
+    follow-redirects: ^1.15.6
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 3d21652faf8e29fb36c47517d2872bb5e2285127a24f5c53ce23082c4eac7f5a88de84dd49d4a1a83068e5301dcfd9067b41e5fbd00b0d20ab7b0a843559273d
+  languageName: node
+  linkType: hard
+
 "babel-core@npm:^7.0.0-bridge.0":
   version: 7.0.0-bridge.0
   resolution: "babel-core@npm:7.0.0-bridge.0"
@@ -6269,6 +6280,16 @@ __metadata:
   version: 0.254.1
   resolution: "flow-parser@npm:0.254.1"
   checksum: ae292e203d8d01054a9644bdf62f1de77b7e1b4a832bd079dfb94e68fd5895be23c45d050879df4338c91d10c409df79795e39dc2e0b6579cfb232a1dc3263ad
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.9
+  resolution: "follow-redirects@npm:1.15.9"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 859e2bacc7a54506f2bf9aacb10d165df78c8c1b0ceb8023f966621b233717dab56e8d08baadc3ad3b9db58af290413d585c999694b7c146aaf2616340c3d2a6
   languageName: node
   linkType: hard
 
@@ -9836,6 +9857,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
 "psl@npm:^1.1.33":
   version: 1.10.0
   resolution: "psl@npm:1.10.0"
@@ -10146,6 +10174,16 @@ __metadata:
   version: 1.4.10
   resolution: "react-native-sha256@npm:1.4.10"
   checksum: db49be891c2eece1de582215637c463fc5636fce7d58c2e78f1e60d6847eb121d3233f12c5793f43a193df6a79852eec459ef1a7e34c70133146a9fe332f055b
+  languageName: node
+  linkType: hard
+
+"react-native-snackbar@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "react-native-snackbar@npm:2.8.0"
+  peerDependencies:
+    react: ">=16"
+    react-native: ">=0.60"
+  checksum: 1ec0bf9a08bb06103309e60cca4ea640a79d13819476c2bfce1f642e64a0ffdafa982fa0582f5f67c6c4db612b9e5e2ed07ff333224ad20bd24349415409f3db
   languageName: node
   linkType: hard
 
@@ -12041,6 +12079,7 @@ __metadata:
     "@types/react-native-vector-icons": ^6.4.18
     "@types/react-test-renderer": ^18.0.7
     autoprefixer: ^10.4.20
+    axios: ^1.7.8
     ethers: 5.7.2
     expo: ^52.0.0
     expo-constants: ~17.0.3
@@ -12075,6 +12114,7 @@ __metadata:
     react-native-screens: ~4.1.0
     react-native-sensitive-info: ^5.5.8
     react-native-sha256: ^1.4.10
+    react-native-snackbar: ^2.8.0
     react-native-vector-icons: ^10.2.0
     react-native-vision-camera: ^4.6.3
     react-native-web: ~0.19.13

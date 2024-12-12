@@ -16,7 +16,7 @@ const Scan = () => {
     if (qrCode !== '') {
       router.push({
         pathname: '/send',
-        params: { address: qrCode }
+        params: { toAddress: qrCode }
       })
     } else {
       console.log('invalid qr code')

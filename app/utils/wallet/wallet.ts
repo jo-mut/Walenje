@@ -27,10 +27,11 @@ export function loadWalletFromMnemonics(mnemonics: any) {
     }
 }
 
-export const loadWalletFromPrivateKey = (pk: string) => {
+export const loadWalletFromPrivateKey = (pk: ethers.Wallet) => {
     try {
-        if (pk.indexOf('0x') !== 0) pk = `0x${pk}`;
-        return new HDNodeWallet(pk, provider);
+        if (pk.address.indexOf('0x') !== 0) {
+            return new HDNodeWallet(pk, provider);
+        }
     } catch (e) {
         throw new Error('invalid private key');
     }
@@ -48,4 +49,8 @@ export const reduceBigNumbers = (items: any) => {
 export const calculateFee = (gasUsed: number, gasPrice: number) => {
     return gasUsed * Number(formatBalance(gasPrice));
 
+}
+
+export function estimateFee({ gasLimit, gasPrice }: any) {
+    return utils.bigNumberify(String(gasLimit)).mul(String(gasPrice));
 }
