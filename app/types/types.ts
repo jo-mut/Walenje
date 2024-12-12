@@ -1,11 +1,11 @@
 declare interface InputFieldProps {
-    label: string;
+    label?: string;
     labelStyle?: string;
     icon?: any;
     keyboardType?: string;
     secureTextEntry?: boolean;
     inputStyle?: string;
     containerStyle?: string;
-    expanded: boolean;
+    expanded?: boolean;
     [key: string]: any;
 }

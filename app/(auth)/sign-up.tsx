@@ -23,7 +23,7 @@ export default function SignUp() {
                     <Button
                         label='Import using seed phrase'
                         bgVariant='gray'
-                        onPress={() => ('')}>
+                        onPress={() => router.push('/(auth)/import-wallet')}>
                     </Button>
                 </View>
 

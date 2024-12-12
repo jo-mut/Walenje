@@ -1,4 +1,4 @@
-import { BackHandler, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BorderRadius, Colors, FontFamily, FontSize, Size, Spacing } from '../../theme'
 import Button from '../../components/Button'
@@ -8,12 +8,16 @@ import IconView from '../../components/IconView'
 import { router, useLocalSearchParams, useRouter } from 'expo-router';
 import { Avatar } from '@/app/components/Avatar'
 import { wallets } from '@/app/stores'
+import QRCode from 'react-native-qrcode-svg';
+import { inject, observer } from 'mobx-react'
 
 
-export default function Home() {
-    const [activeTab, setActiveTab] = useState(false);
+
+const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
+    const address: string = wallets.currentWallet.address;
     const router = useRouter();
-    const [fromAddress, setFromAddress] = useState();
+    const [modalVisible, setModalVisible] = useState(false);
+
 
     const navigateToTransactScreens = (path: any) => {
         return router.push({
@@ -29,7 +33,6 @@ export default function Home() {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', disableBackHandler);
         return () => backHandler.remove();
     }, []);
-
 
     return (
         <SafeAreaView className='flex-1 bg-black'>
@@ -68,16 +71,48 @@ export default function Home() {
                                 color="#fff"
                             />}
                         label='Receive'
-                        onPress={() => {
-                            navigateToTransactScreens('/receive')
-                        }} />
+                        onPress={() => setModalVisible(true)} />
                 </View>
             </View>
+            <Modal
+                visible={modalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={() => setModalVisible(false)}>
+                <View className='flex-1  justify-center items-center'
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+                    <TouchableOpacity
+                        className='flex-1 justify-center items-center'
+                        onPress={() => setModalVisible(false)}
+                        activeOpacity={1}>
+                        <View className='p-3 m-5 rounded-3xl justify-center items-center'>
+                            <View className='flex justify-center items-center'>
+                                <View className='bg-white p-3 rounded-lg flex'>
+                                    <QRCode
+                                        size={220}
+                                        value={address} />
+                                </View>
+                                <View className='flex-row mt-5 p-3'>
+                                    <Text className='text-white text-sm mr-3 truncate'>
+                                        {address}
+                                    </Text>
+                                    <IconView
+                                        iconType="MaterialCommunityIcons"
+                                        iconName="copy"
+                                        size={24}
+                                        color="#fff"/>
+                                </View>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
             <View className='flex-1 mx-5'>
                 <Text className='text-2xl text-white font-[600] my-3'>Transactions</Text>
 
             </View>
         </SafeAreaView>
     )
+}))
 
-}
+export default Home

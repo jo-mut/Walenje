@@ -7,6 +7,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+      <Stack.Screen name="import-wallet" options={{ headerShown: false }} />
       <Stack.Screen name="generate-seedphrase" options={{ headerShown: false }} />
       <Stack.Screen name="confirm-seedphrase" options={{ headerShown: false }} />
     </Stack>
