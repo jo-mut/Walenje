@@ -9,6 +9,7 @@ type ButtonProps = {
     onPress?: any;
     bgVariant?: string
     isBold?: boolean
+    style?: string;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -17,6 +18,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     onPress,
     bgVariant,
     isBold,
+    style
 }) => {
 
     const getBackground = (variant?: string) => {
@@ -33,7 +35,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
 
     return (
         <View className={`rounded-2xl p-2 items-center justify-center 
-        ${getBackground(bgVariant)}`}>
+        ${getBackground(bgVariant)} ${style}`}>
             <TouchableOpacity onPress={onPress}>
                 <View className='justify-center items-center p-3'>
                     {children}

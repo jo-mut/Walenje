@@ -14,9 +14,7 @@ export async function addWallet(wallet: any) {
 export async function loadWallets() {
     WalletsStore.isLoading(true);
     const pks: ethers.Wallet[] = await WalletsService.loadWallet();
-    console.log(" loaded wallet pks",pks);
     pks.map(pk => {
-        console.log("loaded  pk", pk);
         WalletsStore.addWallet(pk);
     });
     WalletsStore.isLoading(false);

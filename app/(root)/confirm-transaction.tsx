@@ -2,23 +2,24 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import React, { useEffect, useState } from 'react'
 import { inject, observer } from 'mobx-react';
 import PageNav from '../components/PageNav'
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import InputField from '../components/InputField'
 import Button from '../components/Button'
+import { ethers } from "ethers";
 import { Wallet as WalletUtils, Transaction as TransactionUtils } from '../utils'
+import { Transaction as TransactionActions, Recents as RecentsActions } from '../common/actions';
 
-const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets')
-    (observer(({ prices, wallets }) => {
+const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
+    (observer(({ prices, wallets, wallet }) => {
         const { toAddress, amount }
             : { toAddress: string, amount: string } = useLocalSearchParams();
         const [totalAmount, setTotalAmount] = useState<number>();
         const [dollarValue, setDollarValue] = useState();
-        const [transaction, setTransaction] = useState(89);
+        const [transaction, setTransaction] = useState<any>();
 
 
         const estimatedFee = () => {
-            const fee: number = WalletUtils.estimateFee(transaction);
-            console.log("set fee", fee)
+            const fee: any = WalletUtils.estimateFee(transaction);
             const formatBalance = WalletUtils.formatBalance(fee);
             return formatBalance;
         }
@@ -34,17 +35,40 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets')
 
         const createTransaction = async () => {
             const txn = await TransactionUtils.createTransaction(toAddress, amount);
-            console.log("set transaction", txn)
             setTransaction(txn);
-            console.log("Transaction should be set, checking state immediately:", txn)
+            console.log("transaction value", txn)
+        }
+
+        const sendTransaction = async () => {
+            fiatAmount()
+            fiatEstimatedFee()
+
+            wallet.isLoading(true);
+            console.log("wallet ", wallets.list[0])
+
+            try {
+                const txn = await TransactionActions.sendTransaction(wallets.list[0], transaction);
+                console.log("sent transaction value", txn.value)
+
+                setTransaction(txn);
+                RecentsActions.saveAddressToRecents(txn.to);
+            } catch (error) {
+                console.log("sent transaction error", error)
+            } finally {
+                wallet.isLoading(false);
+            }
+
+            router.back();
         }
 
         useEffect(() => {
-            if (transaction) {
-                console.log("set total amount", transaction)
-                setTotalAmount((parseInt(amount) + estimatedFee()))
-            }
-        }, [transaction])
+            createTransaction()
+
+            // if (transaction) {
+            //     console.log("set total amount", transaction)
+            //     setTotalAmount((parseInt(amount) + estimatedFee()))
+            // }
+        }, [])
 
         return (
             <SafeAreaView className='flex-1 bg-black'>
@@ -90,9 +114,9 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets')
                         </View>
                         <View className='h-[1px] bg-slate-600 mt-5 '></View>
                         <View className='flex flex-row items-center justify-between py-3'>
-                            <View className='flex flex-row items-center'>
+                            <View className='flex flex-row items-center justify-between'>
                                 <Text className='text-lg text-white'>Total Amount</Text>
-                                <View className='flex '>
+                                <View className='flex'>
                                     <Text className='text-lg text-white'>{totalAmount}</Text>
                                     <Text className='text-lg text-white'>{ }</Text>
                                 </View>
@@ -103,7 +127,7 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets')
                         <Button
                             label='Send'
                             bgVariant='primary'
-                            onPress={() => (createTransaction())}>
+                            onPress={() => (sendTransaction())}>
                         </Button>
                     </View>
                 </View>

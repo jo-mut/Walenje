@@ -18,12 +18,10 @@ class WalletsStore {
     }
 
     @action addWallet = (wallet: any) => {
-        console.log("added  wallet", wallet);
         // if(!(wallet instanceof ethers.Wallet)) throw new Error('Invalid Wallet');
         // wallet.name = walletName;
         // wallet.description = walletDescription;
         this.currentWallet = wallet;
-        console.log("added  currentWallet", this.currentWallet);
         this.list.push(wallet);
     }
 

@@ -4,10 +4,34 @@ import { Wallet as WalletUtils } from '../utils'
 import { BorderRadius, Colors, FontFamily, FontSize, Spacing } from '../theme';
 import Button from '../components/Button';
 import { Redirect, router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 export default function GenerateSeedPhrase() {
   const [seedphrase, setSeedPhrase] = useState<string[]>([]);
+  const [groupedPhrases, setGroupedPhrase] = useState<any[][]>();
+  const { top } = useSafeAreaInsets();
+
+  const groupSeedPhrases = () => {
+    const groups: any[][] = Array.from({ length: 4 }, () => [])
+    seedphrase.map((item: string, index: number) => {
+      if (index < 3) {
+        const phrase = { "name": item, "pos": index + 1 }
+        groups[0].push(phrase)
+      } else if (index > 2 && index < 6) {
+        const phrase = { "name": item, "pos": index + 1 }
+        groups[1].push(phrase)
+      } else if (index > 6 && index < 10) {
+        const phrase = { "name": item, "pos": index + 1}
+        groups[2].push(phrase)
+      } else {
+        const phrase = { "name": item, "pos": index + 1}
+        groups[3].push(phrase)
+
+      }
+    })
+    setGroupedPhrase(groups)
+  }
 
   const navigateToConfirmSeedphrase = () => {
     return router.push({
@@ -18,11 +42,11 @@ export default function GenerateSeedPhrase() {
 
   const infoContainer = () => {
     return (
-      <View className='items-center justify-center'>
+      <View className='justify-center mx-5'>
         <Text className='text-primaryOrangeHex text-2xl font-[600]'>
           Write down your seedphrase
         </Text>
-        <Text className='text-white text-center p-5'>
+        <Text className='text-white mt-3'>
           This is your seed phrase. Writeit down on a paper and keep it in a
           safe place. You'll be asked to re-enter this phrase (in-order) on
           the next step for confirmation.
@@ -31,32 +55,31 @@ export default function GenerateSeedPhrase() {
     )
   }
 
-  const displaySeedPhrase = () => {
-    return (
-      <View className='flex flex-row justify-center flex-wrap gap-6 m-5'>
-        {seedphrase.map((item, index) => (
-          <View className='bg-primaryGreyHex p-3 rounded-xl'>
-            <Text className='text-white'>{(index + 1) + ". " + item}</Text>
-          </View>
-        ))}
-      </View>
-    )
-  }
+
 
   const revealMnemonic = async () => {
     const phrase: any = await WalletUtils.generateMnemonics()
-    console.log(phrase.split(' '))
     if (phrase) {
       setSeedPhrase(phrase.split(' '));
+      groupSeedPhrases();
     }
+
   }
 
   const renderSeedPhrase = () => {
     return (
       <View>
-        {seedphrase ? (
-          <View>
-            {displaySeedPhrase()}
+        {groupedPhrases ? (
+          <View className='justify-center m-5'>
+            {groupedPhrases.map((phrases, index) => (
+              <View className='flex flex-row gap-4'>
+                {phrases.map((item, i) => (
+                  <View className='flex-1 bg-primaryGreyHex items-center mt-5 p-3 rounded-xl '>
+                    <Text className='text-white'>{item.pos + ". " + item.name}</Text>
+                  </View>
+                ))}
+              </View>
+            ))}
           </View>
         ) : (
           <View>
@@ -74,8 +97,11 @@ export default function GenerateSeedPhrase() {
   }, [])
 
   return (
-    <SafeAreaView className='flex-1 bg-black'>
-      <View className='flex-1'>
+    <SafeAreaView
+      className='flex-1 bg-black'>
+      <View
+        style={{ paddingTop: top }}
+        className='flex-1'>
         {infoContainer()}
         {renderSeedPhrase()}
         <View className='flex-1 justify-end m-5'>

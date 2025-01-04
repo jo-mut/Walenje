@@ -1,42 +1,51 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Button from '../components/Button';
-import { BorderRadius, Colors, Spacing,  } from '../theme';
+import { BorderRadius, Colors, Spacing, } from '../theme';
+import { ResizeMode, Video } from 'expo-av';
+import { useAssets } from 'expo-asset';
 import PageNav from '../components/PageNav';
 import { Redirect, router } from 'expo-router';
 
 
 export default function SignUp() {
+    const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
 
     const onNavigateToCreateMnemonics = () => {
         return router.push("/(auth)/generate-seedphrase")
     }
 
-   
+
     return (
-        <SafeAreaView style={styles.container}>
-             <View style={styles.container}>
-                <View style={{flex: 1}}>
-
-                </View>
-                <View>
-                    <Button
-                        label='Import using seed phrase'
-                        bgVariant='gray'
-                        onPress={() => router.push('/(auth)/import-wallet')}>
-                    </Button>
-                </View>
-
-                <View style={styles.CreateWalletContainer}>
-                    <Button
-                        label='Create new wallet'
-                        isBold={true}
-                        bgVariant='primary'
-                        onPress={() => onNavigateToCreateMnemonics()}>
-                    </Button>
-                </View>
+        <View style={styles.container}>
+            <View style={{ flex: 1 }}>
+                {assets &&
+                    <Video
+                        resizeMode={ResizeMode.COVER}
+                        isMuted
+                        isLooping
+                        shouldPlay
+                        source={{ uri: assets[0].uri }}
+                        style={{ height: '100%', width: '100%' }} />}
             </View>
-        </SafeAreaView>
+
+
+            <View style={styles.CreateWalletContainer}>
+                <Button
+                    style='mx-5'
+                    label='Import using seed phrase'
+                    bgVariant='gray'
+                    onPress={() => router.push('/(auth)/import-wallet')}>
+                </Button>
+                <Button
+                    style='m-5'
+                    label='Create new wallet'
+                    isBold={true}
+                    bgVariant='primary'
+                    onPress={() => onNavigateToCreateMnemonics()}>
+                </Button>
+            </View>
+        </View>
     )
 
 }
@@ -47,7 +56,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         alignItems: 'stretch',
         flex: 1,
-        padding: 20
     },
     contentContainer: {
         flex: 1,
@@ -55,6 +63,10 @@ const styles = StyleSheet.create({
     },
 
     CreateWalletContainer: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
         marginTop: Spacing.space_20,
     }
 });

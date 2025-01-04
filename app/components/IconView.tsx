@@ -16,9 +16,9 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 interface IconProps {
     iconType?: any,
-    iconName: string,
-    size: number,
-    color: string,
+    iconName?: string,
+    size?: number,
+    color?: string,
     icon?: any
 }
 

@@ -32,7 +32,6 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
 
   React.useEffect(() => {
     setFromAddress(wallets.currentWallet);
-    console.log("current wallet address ", fromAddress);
   }, [])
 
   return (

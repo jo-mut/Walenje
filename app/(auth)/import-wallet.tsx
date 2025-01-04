@@ -24,7 +24,7 @@ export default function ImportWallet() {
     const seedphraseArray = seedphrase?.trim().split(' ')
     if (isValidSequence(seedphraseArray)) {
       try {
-        const wallet = await WalletUtils.loadWalletFromMnemonics(seedphraseArray);
+        const wallet = await WalletUtils.loadWalletFromMnemonics(seedphraseArray, 1);
         await WalletsActions.addWallet(wallet);
         await WalletsActions.saveWallets();
         navigateToLandingPage();

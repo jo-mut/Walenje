@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import ConfirmBox from '../components/ConfirmBox';
 import { Redirect, router } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const infoContainer = () => {
     return (
@@ -20,9 +21,14 @@ const infoContainer = () => {
 export default function ConfirmSeedPhrase() {
     const { seedphrase }: any = useLocalSearchParams();
     const phrase: string[] = JSON.parse(seedphrase);
+    const { top } = useSafeAreaInsets();
+
     return (
-        <SafeAreaView className='flex-1 bg-black'>
-            <View className='flex-1 bg-black'>
+        <SafeAreaView
+            className='flex-1 bg-black'>
+            <View
+                style={{ paddingTop: top }}
+                className='flex-1 bg-black'>
                 {infoContainer()}
                 <ConfirmBox
                     phrase={phrase} />

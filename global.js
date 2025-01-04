@@ -4,4 +4,3 @@ import '@ethersproject/shims';
 
 global.TextDecoder = require('text-encoding').TextDecoder;
 
-console.log("Global imports applied!");

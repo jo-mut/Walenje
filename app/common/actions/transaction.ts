@@ -6,6 +6,7 @@ import { Transaction as TransactionService } from "../../services";
 export async function waitForTransaction(wallet: Wallet, txn: Transaction) {
     await wallet.provider.waitForTransaction(txn.hash as string);
     WalletStore.moveToHistory(txn);
+    console.log("TRANSACTION IS SUCCESSFUL", txn)
     notify('Transaction confirmed', 500);
 }
 

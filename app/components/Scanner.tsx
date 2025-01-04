@@ -14,8 +14,6 @@ const Scanner = (props: any) => {
     const codeScanner = useCodeScanner({
         codeTypes: ['qr'],
         onCodeScanned: (codes: any) => {
-            console.log(`onCodeScanned`, codes);
-            console.log(`onCodeScanned value`, codes[0].value);
             const value: string = codes[0].value.substring(codes[0].value.indexOf(":") + 1)
             props.onRead(value);
         },
@@ -29,7 +27,6 @@ const Scanner = (props: any) => {
     useEffect(() => {
         const requestCameraPermission = async () => {
             const permission = await Camera.requestCameraPermission();
-            console.log("Camera.requestCameraPermission ", permission);
             setHasPermissions(permission === "granted");
         }
 

@@ -17,6 +17,8 @@ const Layout = () => {
                     backgroundColor: Colors.primaryDarkGreyHex,
                     overflow: 'hidden',                
                     display: 'flex',
+                    height: 56,
+                    paddingBottom: 30,
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     flexDirection: 'row',

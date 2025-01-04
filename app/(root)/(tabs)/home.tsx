@@ -35,7 +35,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
     }, []);
 
     return (
-        <SafeAreaView className='flex-1 bg-black'>
+        <SafeAreaView className='flex-1 bg-black' style={{paddingTop: 0}}>
             <PageNav
                 title='Wallet' />
             <View className={`items-center justify-center mx-5 p-10 mt-5 

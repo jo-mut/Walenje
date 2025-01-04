@@ -90,7 +90,7 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
     const onPressConfirm = async () => {
         if (isValidSequence()) {
             try {
-                const wallet = await WalletUtils.loadWalletFromMnemonics(phrase);
+                const wallet = await WalletUtils.loadWalletFromMnemonics(phrase, 0);
                 await WalletsActions.addWallet(wallet);
                 await WalletsActions.saveWallets();
                 navigateToLandingPage(wallet);
