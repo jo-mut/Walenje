@@ -1,5 +1,5 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Wallet as WalletUtils } from '../utils'
 import { BorderRadius, Colors, FontFamily, FontSize, Spacing } from '../theme';
 import Button from '../components/Button';
@@ -21,6 +21,7 @@ const infoContainer = () => {
 export default function ConfirmSeedPhrase() {
     const { seedphrase }: any = useLocalSearchParams();
     const phrase: string[] = JSON.parse(seedphrase);
+
     const { top } = useSafeAreaInsets();
 
     return (

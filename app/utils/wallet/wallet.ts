@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { getRandomValues } from "expo-crypto"
 
 const { providers, utils, HDNodeWallet }: any = ethers;
-const INFURA_API_KEY = "22158a6c78f74359a46bd8c2c03988ca";
+const INFURA_API_KEY = process.env.INFURA_API_KEY!
 const network = (process.env.NODE_ENV == 'production') ? 'mainnet' : 'sepolia';
 const provider = new ethers.providers.InfuraProvider(network, INFURA_API_KEY);
 

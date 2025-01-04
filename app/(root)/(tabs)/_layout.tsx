@@ -15,13 +15,14 @@ const Layout = () => {
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     backgroundColor: Colors.primaryDarkGreyHex,
-                    overflow: 'hidden',                
+                    overflow: 'hidden',
                     display: 'flex',
-                    height: 56,
                     paddingBottom: 30,
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     flexDirection: 'row',
+                    position: 'absolute',
+                    borderTopWidth: 0,
                 }
             }}>
             <Tabs.Screen
