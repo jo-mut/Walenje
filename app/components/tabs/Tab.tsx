@@ -3,47 +3,30 @@ import React from 'react'
 import { BorderRadius, Size, Colors, FontFamily, FontSize, Spacing } from '../../theme';
 
 interface TabProp {
+    color?: string,
+    background?: string,
     label: string;
     onPress: any;
-    size?: string;
     style?: any;
     isActive?: boolean
 }
 
 const Tab: React.FC<TabProp> = ({
+    color = "text-white",
     label,
     onPress,
-    size,
     style,
     isActive
 }) => {
-    const props = { size, isActive }
-    const { tabStyles } = styles(props)
     return (
-        <View style={[tabStyles.TabContainer, style]}>
-            <TouchableOpacity
-                onPress={onPress}>
-                    <Text style={tabStyles.Title}>{label}</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+            className={`${style} text-center items-center`}
+            onPress={onPress}>
+            <Text className={`text-lg ${isActive ? "text-orange-500" : color}`}>{label}</Text>
+            {isActive && <View className='p-[2] w-[20] flex-1 bg-orange-500 mt-1' />}
+        </TouchableOpacity>
     )
 }
 
-
-const styles = (props: any) => {
-    const tabStyles = StyleSheet.create({
-        TabContainer: {
-            backgroundColor: props.isActive? Colors.primaryOrangeHex : Colors.primaryGreyHex,
-            borderRadius: BorderRadius.radius_10,
-            paddingHorizontal: Spacing.space_20,
-            paddingVertical: Spacing.space_10,
-        },
-        Title: {
-            color: Colors.primaryWhiteHex,
-        }
-    })
-
-    return { tabStyles }
-}
 
 export default Tab

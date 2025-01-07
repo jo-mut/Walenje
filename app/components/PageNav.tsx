@@ -26,12 +26,15 @@ const PageNav: React.FC<PageNavProps> = ({
 }) => {
 
     const { top } = useSafeAreaInsets();
+    const firstInitial = "Jom".charAt(0).toUpperCase();
+    const secondInitial = "Kelo".charAt(0).toUpperCase();
+    const fullInitials = firstInitial + secondInitial;
 
 
     return (
         <View
-            style={{ paddingTop: top }}
-            className='flex flex-row bg-primaryBlackRGBA justify-between mx-5'>
+            style={{ paddingTop: top + 10 }}
+            className='flex flex-row bg-black justify-between px-5'>
             {back &&
                 <TouchableOpacity
                     onPress={() => router.back()}>
@@ -43,13 +46,8 @@ const PageNav: React.FC<PageNavProps> = ({
                 </TouchableOpacity>}
             {avatar &&
                 <Avatar
-                    firstName='John'
-                    lastName='Johns'
+                    initials={fullInitials}
                     profileColor={Colors.primaryOrangeHex} />}
-            <Text
-                className='text-primaryWhiteHex font-xl font-semibold text-center'>
-                {title}
-            </Text>
             {scan &&
                 <TouchableOpacity
                     onPress={() => router.push('/scan')}>

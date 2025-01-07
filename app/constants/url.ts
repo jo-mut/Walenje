@@ -1,3 +1,2 @@
-export const CRYPTO_COMPARE = 'https://min-api.cryptocompare.com';
-
-export const ETHERSCAN = (process.env.NODE_ENV === 'production') ? 'https://api.etherscan.io/api' : 'https://rinkeby.etherscan.io/api';
+export const COINTSTATS = "https://openapiv1.coinstats.app/coins/price/";
+export const ETHERSCAN = (process.env.NODE_ENV === 'production') ? 'https://api.etherscan.io/api' : 'https://sepolia.etherscan.io/api';

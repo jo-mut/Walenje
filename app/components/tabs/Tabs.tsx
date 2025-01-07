@@ -12,20 +12,15 @@ const Tabs: React.FC<TabsProp> = ({
     tabs
 }) => {
     return (
-        <View style={styles.TabsContainer}>
-            
+        <View className='flex m-5'>
+            <View className='flex flex-row gap-3'>
+                {tabs}
+            </View>
         </View>
     )
 }
 
 
-const styles = StyleSheet.create({
-    TabsContainer: {
-        flexDirection: 'row'
-    },
-    Title: {
-        color: Colors.primaryWhiteHex,
-    }
-})
+
 
 export default Tabs

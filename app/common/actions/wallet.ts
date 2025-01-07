@@ -20,6 +20,13 @@ export async function loadWallets() {
     WalletsStore.isLoading(false);
 }
 
+export const currentWalletBalance = async (wallet: any, address: string) => {
+    console.log("current balance provider ========  ", address)
+    const balance = await wallet.provider.getBalance(address);
+    console.log("current balance ========  ", balance)
+    return balance;
+}
+
 export async function updateBalance(wallet:any) {
     const balance = await wallet.getBalance();
     WalletsStore.setBalance(wallet.getAddress(), balance);

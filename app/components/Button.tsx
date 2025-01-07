@@ -37,9 +37,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         <View className={`rounded-2xl p-2 items-center justify-center 
         ${getBackground(bgVariant)} ${style}`}>
             <TouchableOpacity onPress={onPress}>
-                <View className='justify-center items-center p-3'>
-                    {children}
-                    <Text className={`mt-2 text-white ${isBold && 'font-[600]'}`}>
+                <View className='flex-row justify-center gap-2 items-center px-5'>
+                    {children && children}
+                    <Text className={`text-white ${isBold && 'font-[600]'}`}>
                         {label}
                     </Text>
                 </View>

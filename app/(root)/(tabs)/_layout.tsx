@@ -4,6 +4,8 @@ import { Tabs } from 'expo-router'
 import IconView from '../../components/IconView'
 import { Colors } from '@/app/theme'
 import { Icons } from '@/app/components/icons'
+import { BlurView } from 'expo-blur';
+import PageNav from '@/app/components/PageNav'
 
 const Layout = () => {
     return (
@@ -13,6 +15,14 @@ const Layout = () => {
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'white',
                 tabBarShowLabel: false,
+                headerBackground: () => (
+                    <View className='bg-black'>
+                        <BlurView
+                            intensity={50}
+                            tint='extraLight'
+                            className='flex-1 bg-[rgba(0,0,0,0.5)]' />
+                    </View>
+                ),
                 tabBarStyle: {
                     backgroundColor: Colors.primaryDarkGreyHex,
                     overflow: 'hidden',
@@ -29,7 +39,12 @@ const Layout = () => {
                 name='home'
                 options={{
                     title: 'Home',
-                    headerShown: false,
+                    headerShown: true,
+                    header: () => (
+                        <PageNav
+                            scan={true}
+                            avatar={true} />
+                    ),
                     tabBarIcon: ({ focused }) =>
                         <IconView
                             iconType="MaterialCommunityIcons"

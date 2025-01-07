@@ -1,15 +1,18 @@
 import { BackHandler, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { act, useEffect, useState } from 'react'
 import { BorderRadius, Colors, FontFamily, FontSize, Size, Spacing } from '../../theme'
 import Button from '../../components/Button'
 import PageNav from '../../components/PageNav'
 import Tab from '../../components/tabs/Tab'
 import IconView from '../../components/IconView'
 import { router, useLocalSearchParams, useRouter } from 'expo-router';
+import { Wallet as WalletsAction } from '../../common/actions';
+import { Wallet as WalletsUtils } from '../../utils';
 import { Avatar } from '@/app/components/Avatar'
 import { wallets } from '@/app/stores'
 import QRCode from 'react-native-qrcode-svg';
 import { inject, observer } from 'mobx-react'
+import Tabs from '@/app/components/tabs/Tabs'
 
 
 
@@ -17,36 +20,40 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
     const address: string = wallets.currentWallet.address;
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
+    const [activeTab, setActiveTab] = useState(true);
+    const [selectedTab, setSelectedTab] = useState("Token");
+    const [balance, setBalance] = useState();
+    const [balanceValue, setBalanceValue] = useState();
+    const [priceChange, setPriceChange] = useState('9.07%');
+    const tabs: string[] = ["Tokens", "NFTs", "Collectibles", "Transactions"]
 
+    const selectTab = (tab: string) => {
+        setSelectedTab(tab);
+    }
 
-    const navigateToTransactScreens = (path: any) => {
-        return router.push({
-            pathname: path
-        })
+    const walletBalance = async () => {
+        const currentBalance = await WalletsAction.currentWalletBalance(wallets.currentWallet);
+        setBalance(await WalletsUtils.formatBalance(currentBalance))
+        console.log("current balance ", balance)
     }
 
     useEffect(() => {
-        const disableBackHandler = () => {
-            return true;
-        };
-
-        const backHandler = BackHandler.addEventListener('hardwareBackPress', disableBackHandler);
-        return () => backHandler.remove();
-    }, []);
+        walletBalance()
+    }, [])
 
     return (
-        <SafeAreaView className='flex-1 bg-black' style={{paddingTop: 0}}>
-            <PageNav
-                title='Wallet' />
-            <View className={`items-center justify-center mx-5 p-10 mt-5 
-                bg-primaryGreyHex rounded-3xl`}>
-                <Text className='text-xs text-white'>Balance</Text>
+        <SafeAreaView className={`flex-1 bg-black`}>
+            <View className={`justify-center mx-5 p-10 mt-5 rounded-3xl`}>
                 <Text className='text-white font-JakartaBold 
-                text-3xl font-[600]'>400.00</Text>
+                text-4xl font-semibold'>{balance} {"ETH"}</Text>
+                <View className='flex flex-row'>
+                    <Text className='text-white text-4xl font-semibold'>{balanceValue}</Text>
+                    <Text className='text-white text-xl'>{priceChange}</Text>
+                </View>
             </View>
-            <View className={`flex-row justify-between mx-5 my-5 gap-5`}>
-                <View className={`flex-1 justify-center items-center 
-                    bg-primaryGreyHex rounded-3xl p-3`}>
+            <View className={`flex-row mx-5 my-5 gap-5`}>
+                <View className={`flex-1 flex-row justify-center items-center 
+                    bg-primaryGreyHex rounded-2xl p-1`}>
                     <Button
                         children={
                             <IconView
@@ -57,11 +64,13 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
                             />}
                         label='Send'
                         onPress={() => {
-                            navigateToTransactScreens('/send')
+                            router.push({
+                                pathname: '/send'
+                            })
                         }} />
                 </View>
-                <View className={`flex-1 justify-center items-center 
-                    bg-primaryGreyHex rounded-3xl p-3`}>
+                <View className={`flex-1 flex-row justify-center items-center 
+                    bg-primaryGreyHex rounded-2xl p-1`}>
                     <Button
                         children={
                             <IconView
@@ -71,6 +80,19 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
                                 color="#fff"
                             />}
                         label='Receive'
+                        onPress={() => setModalVisible(true)} />
+                </View>
+                <View className={`flex-1 flex-row justify-center items-center 
+                    bg-primaryGreyHex rounded-2xl p-1`}>
+                    <Button
+                        children={
+                            <IconView
+                                iconType="MaterialCommunityIcons"
+                                iconName="check"
+                                size={24}
+                                color="#fff"
+                            />}
+                        label='Buy'
                         onPress={() => setModalVisible(true)} />
                 </View>
             </View>
@@ -100,17 +122,20 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
                                         iconType="MaterialCommunityIcons"
                                         iconName="copy"
                                         size={24}
-                                        color="#fff"/>
+                                        color="#fff" />
                                 </View>
                             </View>
                         </View>
                     </TouchableOpacity>
                 </View>
             </Modal>
-            <View className='flex-1 mx-5'>
-                <Text className='text-2xl text-white font-[600] my-3'>Transactions</Text>
-
-            </View>
+            <Tabs
+                tabs={tabs.map((tab: string) => (
+                    <Tab
+                        isActive={tab === selectedTab ? activeTab : !activeTab}
+                        onPress={() => (selectTab(tab))}
+                        label={tab} />
+                ))} />
         </SafeAreaView>
     )
 }))

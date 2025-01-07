@@ -26,7 +26,6 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
 
         const fiatAmount = () => {
             return Number(prices.usd * Number(WalletUtils.formatBalance(transaction.value))).toFixed(2);
-
         }
 
         const fiatEstimatedFee = () => {

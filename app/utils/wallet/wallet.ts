@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
 import { getRandomValues } from "expo-crypto"
+import { getBalance } from "web3/lib/commonjs/eth.exports";
 
 const { providers, utils, HDNodeWallet }: any = ethers;
 const INFURA_API_KEY = process.env.INFURA_API_KEY!
 const network = (process.env.NODE_ENV == 'production') ? 'mainnet' : 'sepolia';
-const provider = new ethers.providers.InfuraProvider(network, INFURA_API_KEY);
+const provider = new ethers.providers.InfuraProvider("sepolia", INFURA_API_KEY);
 
 
 export async function generateMnemonics() {
@@ -23,7 +24,7 @@ export function loadWalletFromMnemonics(mnemonics: any, account: number) {
     } else if (mnemonics instanceof Array) {
         mnemonics = mnemonics.join(' ');
         const wallet = ethers.Wallet.fromMnemonic(mnemonics,  "m/44'/60'/0'/0/" + account);
-        console.log("Provider is set up:", provider);
+        console.log("wallet :", wallet);
         const connectedWallet = wallet.connect(provider);
         return connectedWallet;
     }
@@ -39,7 +40,11 @@ export const loadWalletFromPrivateKey = (pk: ethers.Wallet) => {
     }
 }
 
-export const formatBalance = (balance: number) => {
+export const getWalletBalance = async (address: any) => {
+    provider
+}
+
+export const formatBalance = (balance: any) => {
     return utils.formatEther(balance);
 }
 
