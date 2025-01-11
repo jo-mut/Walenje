@@ -119,6 +119,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
 
     const fiatAmount = (amount: string) => {
         return Number(tokenValue * Number(WalletsUtils.formatBalance(amount))).toFixed(2);
+
     }
 
     const formatAmount = (amount: string) => {
@@ -155,9 +156,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
 
 
     useEffect(() => {
-        if (!tokenValue) {
-            setTokenValue(getPrice.data?.data?.USD);
-        }
+        setTokenValue(getPrice.data?.data?.USD);
     }, [tokenValue])
 
 
@@ -291,11 +290,12 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                             value={formatAmount(item.value)}
                             txreceipt_status={transactionStatus(item.txreceipt_status)}
                             type={transactionType(item.from)}
-                            fiatValue={fiatAmount(item.amount)} />
+                            fiatValue={fiatAmount(item.value)} />
                     ))}
             </View>
         </SafeAreaView>
     )
 }))
+
 
 export default Home
