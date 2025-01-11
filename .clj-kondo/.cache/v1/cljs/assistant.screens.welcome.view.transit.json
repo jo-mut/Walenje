@@ -1,0 +1,1 @@
+["^ ","~$view",["^ ","~:row",6,"~:col",1,"~:fixed-arities",["~#set",[0]],"~:name","^0","~:ns","~$assistant.screens.welcome.view","~:top-ns","^7","~:arities",["^ ","~i0",["^ ","~:ret","~:vector","~:arglist-str","[]"]],"~:type","~:fn"],"~:filename","/Users/john/Documents/developer/rn/Assistant/src/assistant/screens/welcome/view.cljs"]

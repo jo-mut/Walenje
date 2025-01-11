@@ -1,24 +1,12 @@
 export interface TransactionProps {
-	blockNumber?: string;
-	blockHash?: string;
-	timeStamp?: string;
-	hash?: string;
-	nonce?: string;
-	transactionIndex?: string;
-	from: string;
-	to: string;
-	value: string;
-    fiatValue: string;
-    type: string;
-	gas?: string;
-	gasPrice?: string;
-	input?: string;
-	methodId?: string;
-	functionName?: string;
-	contractAddress?: string;
-	cumulativeGasUsed?: string;
+	timestamp?: string;
+	from?: string;
+	to?: string;
+	value?: string;
+    fiatValue?: string;
+    type?: string;
+	category?: string;
+	balance?: string;
+	logo?: string;
 	txreceipt_status?: string;
-	gasUsed?: string;
-	confirmations?: string;
-	isError?: string;
 }

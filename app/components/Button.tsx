@@ -28,15 +28,17 @@ const Button: React.FunctionComponent<ButtonProps> = ({
             case 'gray':
                 return 'bg-primaryGreyHex'
             case 'primary':
-                return 'bg-primaryOrangeHex'    
+                return 'bg-primaryOrangeHex'
         }
         return ''
     }
 
     return (
-        <View className={`rounded-2xl p-2 items-center justify-center 
-        ${getBackground(bgVariant)} ${style}`}>
-            <TouchableOpacity onPress={onPress}>
+        <View className={`rounded-2xl items-center justify-center 
+            ${getBackground(bgVariant)} ${style}`}>
+            <TouchableOpacity
+            className='flex'
+                onPress={onPress}>
                 <View className='flex-row justify-center gap-2 items-center px-5'>
                     {children && children}
                     <Text className={`text-white ${isBold && 'font-[600]'}`}>

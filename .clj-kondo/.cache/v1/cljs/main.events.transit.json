@@ -1,1 +1,1 @@
-["^ ","~$app-db",["^ ","~:row",6,"~:col",1,"~:name","^0","~:ns","~$main.events","~:top-ns","^5","~:type","~:atom"],"~:filename","/Users/john/Documents/developer/rn/crypto_rn/src/main/events.cljs"]
+["^ ","~$app-db",["^ ","~:row",8,"~:col",1,"~:name","^0","~:ns","~$main.events","~:top-ns","~$assistant.events","~:type","~:atom"],"~:filename","/Users/john/Documents/developer/rn/Assistant/src/assistant/events.cljs"]

@@ -1,4 +1,4 @@
-import { BackHandler, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BackHandler, Image, Modal, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { act, useEffect, useState } from 'react'
 import { BorderRadius, Colors, FontFamily, FontSize, Size, Spacing } from '../theme'
 import Button from '../components/Button'
@@ -14,8 +14,11 @@ import QRCode from 'react-native-qrcode-svg';
 import { inject, observer } from 'mobx-react'
 import Tabs from '@/app/components/tabs/Tabs'
 import { useQuery } from '@tanstack/react-query';
-import ListItem from '../components/ListItem'
+import ListItem from '../components/TransactionItem'
 import { format } from 'date-fns';
+import { Icons } from '../components/icons'
+import TransactionItem from '../components/TransactionItem'
+import TokenItem from '../components/TokenItem'
 
 
 const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: any }) => {
@@ -26,10 +29,12 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
     const [selectedTab, setSelectedTab] = useState("Tokens");
     const [balance, setBalance] = useState();
     const [balanceValue, setBalanceValue] = useState('');
-    const [price, setPrice] = useState(0);
+    const [tokenValue, setTokenValue] = useState(0);
     const [priceChange, setPriceChange] = useState('9.07%');
+    const [fiatValue, setFiatValue] = useState('');
     const [transactionHistory, setTransactionHistory] = useState<any>();
     const tabs: string[] = ["Tokens", "NFTs", "Transactions"]
+    const [tokens, setTokens] = useState<any[]>([]);
 
     const getPrice = useQuery({
         queryKey: ['price'],
@@ -88,13 +93,21 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
             const currentBalance = await wallets.currentWallet.provider.getBalance(address);
             console.log("balance currentBalance === ", currentBalance);
             const formattedBalance = await WalletsUtils.formatBalance(currentBalance);
-            const balanceV = Number(price * Number(WalletsUtils.formatBalance(formattedBalance))).toFixed(2)
-            setBalance(formattedBalance);  
-            setBalanceValue(balanceV);  
+            const balanceV = Number(tokenValue * Number(WalletsUtils.formatBalance(formattedBalance))).toFixed(2)
+            setBalance(formattedBalance);
+            setBalanceValue(balanceV);
         } catch (error) {
             console.error("Error fetching balance:", error);
         }
     };
+
+    const category = (from: string) => {
+        if (from !== address) {
+            return "Received"
+        }
+
+        return "Sent"
+    }
 
     const transactionType = (from: string) => {
         if (from !== address) {
@@ -105,7 +118,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
     }
 
     const fiatAmount = (amount: string) => {
-        return Number(price * Number(WalletsUtils.formatBalance(amount))).toFixed(2);
+        return Number(tokenValue * Number(WalletsUtils.formatBalance(amount))).toFixed(2);
     }
 
     const formatAmount = (amount: string) => {
@@ -142,10 +155,10 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
 
 
     useEffect(() => {
-        if (!price) {
-            setPrice(getPrice.data?.data?.USD);
+        if (!tokenValue) {
+            setTokenValue(getPrice.data?.data?.USD);
         }
-    }, [price])
+    }, [tokenValue])
 
 
     return (
@@ -244,16 +257,41 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                             onPress={() => (selectTab(tab))}
                             label={tab} />
                     ))} />
+
+                {selectedTab === "Tokens" &&
+                    <View className='flex-1 m-5'>
+                        <View className='flex-row '>
+                            <Text className='flex-1 text-white text-lg font-semibold'>Add Tokens</Text>
+                            <TouchableOpacity
+                                onPress={() => (
+                                    router.push('/import-tokens')
+                                )}>
+                                <Image
+                                    resizeMode='contain'
+                                    source={Icons.add}
+                                    tintColor={'white'}
+                                    className='w-6 h-6 mx-5' />
+                            </TouchableOpacity>
+                        </View>
+                        {tokens?.map((token: any) => (
+                            <TokenItem
+                                logo={token.logo}
+                                balance={token.balance}
+                                type='token' />
+                        ))}
+                    </View>
+                }
+
                 {selectedTab === "Transactions" &&
                     transactionHistory?.map((item: any) => (
-                        <ListItem
+                        <TransactionItem
                             timestamp={formatData(item.timeStamp)}
                             from={item.from}
                             to={item.to}
                             value={formatAmount(item.value)}
                             txreceipt_status={transactionStatus(item.txreceipt_status)}
                             type={transactionType(item.from)}
-                            fiatValue={fiatAmount(item.value)} />
+                            fiatValue={fiatAmount(item.amount)} />
                     ))}
             </View>
         </SafeAreaView>
