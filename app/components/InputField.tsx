@@ -15,7 +15,6 @@ const InputField = ({
     expanded,
     ...props
 }: InputFieldProps) => {
-    console.log({ ...props });
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

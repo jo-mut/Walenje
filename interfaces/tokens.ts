@@ -3,6 +3,6 @@ export interface ITokenStore {
     symbol: string;
     balance: string;
     decimals: number;
-    contract: any;
+    tokenAddress: string;
     logo: string;
 }
