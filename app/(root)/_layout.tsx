@@ -9,7 +9,26 @@ export default function RootLayout() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="scan" options={{ headerShown: false }} />
       <Stack.Screen name="home" options={{ headerShown: false }} />
-      <Stack.Screen name="send" options={{ headerShown: false }} />
+      <Stack.Screen 
+      name="send" 
+      options={{ 
+        headerShown: true,
+        headerTitle: "Send Crypto",
+        headerTintColor: 'white',
+        headerBackground: () => (
+          <View className='flex-1 bg-black' />
+        ),
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => router.back()}>
+            <Image
+              source={Icons.leftArrow}
+              tintColor={'white'}
+              resizeMode='contain'
+              className='w-6 h-6' />
+          </TouchableOpacity>
+        )
+      }} />
       <Stack.Screen name="receive" options={{ headerShown: false }} />
       <Stack.Screen
         name="import-tokens"
@@ -17,7 +36,7 @@ export default function RootLayout() {
           headerTitle: "Add Token",
           headerTintColor: 'white',
           headerBackground: () => (
-            <View className='flex-1 bg-black'/>
+            <View className='flex-1 bg-black' />
           ),
           presentation: 'modal',
           headerLeft: () => (
@@ -31,8 +50,45 @@ export default function RootLayout() {
             </TouchableOpacity>
           )
         }} />
-      <Stack.Screen name="enter-amount" options={{ headerShown: false }} />
-      <Stack.Screen name="confirm-transaction" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="enter-amount"
+        options={{
+          headerTitle: "Enter Amount",
+          headerTintColor: 'white',
+          headerBackground: () => (
+            <View className='flex-1 bg-black' />
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => router.back()}>
+              <Image
+                source={Icons.leftArrow}
+                tintColor={'white'}
+                resizeMode='contain'
+                className='w-6 h-6' />
+            </TouchableOpacity>
+          )
+        }} />
+      <Stack.Screen
+        name="confirm-transaction"
+        options={{
+          headerShown: true,
+          headerTitle: "Confirm Transaction",
+          headerTintColor: 'white',
+          headerBackground: () => (
+            <View className='flex-1 bg-black' />
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => router.back()}>
+              <Image
+                source={Icons.leftArrow}
+                tintColor={'white'}
+                resizeMode='contain'
+                className='w-6 h-6' />
+            </TouchableOpacity>
+          )
+        }} />
       <Stack.Screen name="receive-transaction" options={{ headerShown: false }} />
     </Stack>
   )

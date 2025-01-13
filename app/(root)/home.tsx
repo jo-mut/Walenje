@@ -174,6 +174,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                 <View className={`flex-1 flex-row justify-center items-center 
                     bg-primaryGreyHex rounded-2xl p-1`}>
                     <Button
+                        style='p-2'
                         children={
                             <IconView
                                 iconType="MaterialCommunityIcons"
@@ -184,13 +185,15 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                         label='Send'
                         onPress={() => {
                             router.push({
-                                pathname: '/send'
+                                pathname: '/send',
+                                params: {fromAddress: address}
                             })
                         }} />
                 </View>
                 <View className={`flex-1 flex-row justify-center items-center 
                     bg-primaryGreyHex rounded-2xl p-1`}>
                     <Button
+                        style='p-2'
                         children={
                             <IconView
                                 iconType="MaterialCommunityIcons"
@@ -204,6 +207,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                 <View className={`flex-1 flex-row justify-center items-center 
                     bg-primaryGreyHex rounded-2xl p-1`}>
                     <Button
+                        style='p-2'
                         children={
                             <IconView
                                 iconType="MaterialCommunityIcons"

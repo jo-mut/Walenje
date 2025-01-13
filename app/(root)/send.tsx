@@ -10,15 +10,17 @@ import { inject, observer } from 'mobx-react';
 import { ethers } from 'ethers';
 import IconView from '../components/IconView';
 import { router, useLocalSearchParams } from 'expo-router'
+import { FlatList } from 'react-native-reanimated/lib/typescript/Animated';
 
 
 
 const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
-  const { toAddress }: { toAddress: string } = useLocalSearchParams();
+  // const { fromAddress }: { fromAddress: string } = useLocalSearchParams();
   const [sendExpanded, setSendExpanded] = useState<boolean>(true);
   const [recentsExpanded, setRecentsExpanded] = useState<boolean>(true);
+  const [recents, setRecents] = useState<string[]>([]);
   const [fromAddress, setFromAddress] = useState<string>();
-  const [to, setTo] = useState<string>();
+  const [toAddress, setToAddress] = useState<string>();
 
 
   const navigateToEnterAmount = () => {
@@ -37,35 +39,22 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
   return (
     <SafeAreaView className='flex-1 bg-black'>
       <View className='flex-1 mx-5'>
-        <PageNav
-          title='Send' />
         <View
           className='flex mt-5'>
-          <View className='flex flex-row px-3'>
-            <Text
-              className={`text-lg text-white font-[600]`}>
-              From:
-            </Text>
-            {sendExpanded &&
-              <TouchableOpacity
-                onPress={() => (setSendExpanded(!sendExpanded))}>
-                <IconView
-                  iconType="MaterialCommunityIcons"
-                  iconName={sendExpanded ? "chevron-down" : "chevron-up"}
-                  size={24}
-                  color="#fff" />
-              </TouchableOpacity>}
-          </View>
-          <View className='flex border bg-primaryDarkGreyHex  rounded-2xl'>
+          <View className='flex border  rounded-2xl'>
             <InputField
-              expanded={false}
-              placeholder="Sending address"
               value={wallets.currentWallet.address}
               onChangeText={(value: string) => {
                 setFromAddress(value)
-              }} />
+              }}
+              expanded={false}
+              placeholder="Sending address"
+              placeholderTextColor='gray'
+              label='Contract Address'
+              inputStyle='p-4'
+              containerStyle='border border-gray-800' />
           </View>
-          <View className='flex flex-row px-3 mt-5'>
+          <View className='flex flex-row justify-between px-3 mt-10'>
             <Text
               className={`text-lg text-white font-[600]`}>
               To:
@@ -81,15 +70,19 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
               </TouchableOpacity>}
           </View>
           <View className='flex flex-row items-center 
-         border bg-primaryDarkGreyHex rounded-2xl'>
+         border rounded-2xl'>
             <View className='flex-grow'>
               <InputField
-                expanded={false}
-                placeholder="Receiving address"
                 value={toAddress}
                 onChangeText={(value: string) => {
-                  setTo(value)
-                }} />
+                  setToAddress(value)
+                }}
+                expanded={false}
+                placeholder="Receiving address"
+                placeholderTextColor='gray'
+                label='Contract Address'
+                inputStyle='p-4'
+                containerStyle='border border-gray-800' />
             </View>
             <View className='mr-3'>
               <TouchableOpacity
@@ -104,8 +97,24 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
             </View>
           </View>
         </View>
+        {/* <View className='flex-1'>
+          {recents ?
+            <View className='flex-1 justify-center items-center'>
+              <Text className='text-white'> No recent addresses</Text>
+            </View>
+            :
+            <FlatList
+              renderItem={(item: any) => (
+                <View className='p-3'>
+                  <Text>{item}</Text>
+                </View>
+              )}
+              data={recents}
+              keyExtractor={(item, index) => index.toString()}/>}
+        </View> */}
         <View className='flex-1 justify-end'>
           <Button
+            style='p-4'
             label='Continue'
             bgVariant='primary'
             onPress={() => navigateToEnterAmount()}>

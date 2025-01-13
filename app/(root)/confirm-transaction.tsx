@@ -72,30 +72,35 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
         return (
             <SafeAreaView className='flex-1 bg-black'>
                 <View className='flex-1 mx-5'>
-                    <PageNav
-                        title='Confirm Transaction' />
                     <View className='flex mt-5'>
                         <Text
                             className={`text-lg px-3 text-white font-[600]`}>
                             From:
                         </Text>
-                        <View className='flex border bg-primaryDarkGreyHex  rounded-2xl'>
-
+                        <View className='flex border  rounded-2xl'>
                             <InputField
-                                placeholder="Sending address"
-                                value={wallets.currentWallet.address} />
+                                value={wallets.currentWallet.address}
+                                expanded={false}
+                                placeholder="From address"
+                                placeholderTextColor='gray'
+                                inputStyle='p-4'
+                                containerStyle='border border-gray-800' />
                         </View>
                         <Text
                             className={`text-lg px-3 mt-5 text-white font-[600]`}>
                             To:
                         </Text>
-                        <View className='border bg-primaryDarkGreyHex rounded-2xl'>
+                        <View className='border rounded-2xl'>
                             <InputField
+                                value={toAddress}
+                                expanded={false}
                                 placeholder="Receiving address"
-                                value={toAddress} />
+                                placeholderTextColor='gray'
+                                inputStyle='p-4'
+                                containerStyle='border border-gray-800' />
                         </View>
                     </View>
-                    <View className='flex mt-5 bg-primaryDarkGreyHex rounded-2xl p-3'>
+                    <View className='flex mt-10 bg-gray-800 rounded-2xl p-3'>
                         <View className='flex flex-row justify-between'>
                             <Text className='text-lg text-white'>Amount</Text>
                             <Text className='text-lg text-white'>{amount}</Text>
@@ -104,7 +109,7 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
                             <View className='flex flex-row items-center'>
                                 <Text className='text-gray-300 text-sm mr-3'>Network fee</Text>
                                 <TouchableOpacity>
-                                    <View className='bg-cyan-900 rounded-xl px-2 items-center justify-center'>
+                                    <View className='bg-cyan-500 rounded px-3 items-center justify-center'>
                                         <Text className='text-white text-sm'>Edit</Text>
                                     </View>
                                 </TouchableOpacity>
@@ -124,6 +129,7 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
                     </View>
                     <View className='flex-1 justify-end'>
                         <Button
+                            style='p-4'
                             label='Send'
                             bgVariant='primary'
                             onPress={() => (sendTransaction())}>

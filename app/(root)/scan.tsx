@@ -33,5 +33,3 @@ const Scan = () => {
 }
 
 export default Scan
-
-const styles = StyleSheet.create({})
