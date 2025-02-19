@@ -13,6 +13,7 @@ export class TokenStore implements IToken {
     @observable tokens: any = INITIAL_STATE.tokens;
 
     @action addToken(token: ITokenStore) {
+        console.log("added token ", token)
         this.tokens.push(token)
     }
 

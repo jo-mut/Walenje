@@ -29,16 +29,15 @@ export default function SignUp() {
                         style={{ height: '100%', width: '100%' }} />}
             </View>
 
-
             <View style={styles.CreateWalletContainer}>
                 <Button
-                    style='mx-5'
+                    style='mx-5 p-4'
                     label='Import using seed phrase'
                     bgVariant='gray'
                     onPress={() => router.push('/(auth)/import-wallet')}>
                 </Button>
                 <Button
-                    style='m-5'
+                    style='m-5 p-4'
                     label='Create new wallet'
                     isBold={true}
                     bgVariant='primary'

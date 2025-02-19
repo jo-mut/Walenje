@@ -1,1 +1,1 @@
-["^ ","~$app-db",["^ ","~:row",6,"~:col",1,"~:name","^0","~:ns","~$assistant.events","~:top-ns","^5","~:type","~:atom"],"~:filename","/Users/john/Documents/developer/rn/Assistant/src/assistant/events.cljs"]
+["^ ","~$app-db",["^ ","~:row",6,"~:col",1,"~:name","^0","~:ns","~$assistant.events","~:top-ns","^5","~:type",["^ ","^7","~:map","~:val",["^ ","~:messages",["^ ","^1",6,"~:end-row",6,"^2",24,"~:end-col",26,"~:tag","~:vector"]]]],"~:filename","/Users/john/Documents/developer/rn/Assistant/src/assistant/events.cljs"]

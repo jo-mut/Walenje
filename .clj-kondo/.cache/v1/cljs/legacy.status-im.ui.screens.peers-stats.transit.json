@@ -1,0 +1,1 @@
+["^ ","~$peers-stats",["^ ","~:row",8,"~:col",1,"~:fixed-arities",["~#set",[0]],"~:name","^0","~:ns","~$legacy.status-im.ui.screens.peers-stats","~:top-ns","^7","~:arities",["^ ","~i0",["^ ","~:ret","~:vector","~:arglist-str","[]"]],"~:type","~:fn"],"~:filename","/Users/john/Documents/developer/blockchain/status-mobile/src/legacy/status_im/ui/screens/peers_stats.cljs"]

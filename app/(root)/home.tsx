@@ -9,7 +9,6 @@ import { router, useLocalSearchParams, useRouter } from 'expo-router';
 import { Price, Wallet as WalletsAction } from '../common/actions';
 import { Wallet as WalletsUtils } from '../utils';
 import { Avatar } from '@/app/components/Avatar'
-import { wallets } from '@/app/stores'
 import QRCode from 'react-native-qrcode-svg';
 import { inject, observer } from 'mobx-react'
 import Tabs from '@/app/components/tabs/Tabs'
@@ -21,7 +20,7 @@ import TransactionItem from '../components/TransactionItem'
 import TokenItem from '../components/TokenItem'
 
 
-const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: any }) => {
+const Home: React.FC<any> = inject('wallets', "tokens")(observer(({ wallets , tokens}: { wallets: any, tokens: any }) => {
     const address: string = wallets.currentWallet.address;
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
@@ -34,7 +33,8 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
     const [fiatValue, setFiatValue] = useState('');
     const [transactionHistory, setTransactionHistory] = useState<any>();
     const tabs: string[] = ["Tokens", "NFTs", "Transactions"]
-    const [tokens, setTokens] = useState<any[]>([]);
+
+    console.log("tokens ====== ", tokens.tokens)
 
     const getPrice = useQuery({
         queryKey: ['price'],
@@ -276,12 +276,12 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: 
                                     className='w-6 h-6 mx-5' />
                             </TouchableOpacity>
                         </View>
-                        {tokens?.map((token: any) => (
+                        {/* {tokens?.map((token: any) => (
                             <TokenItem
                                 logo={token.logo}
                                 balance={token.balance}
                                 type='token' />
-                        ))}
+                        ))} */}
                     </View>
                 }
 

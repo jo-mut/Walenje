@@ -9,29 +9,30 @@ import { ITokenStore } from '@/interfaces/tokens'
 import { ethers } from 'ethers'
 import { inject, observer } from 'mobx-react'
 import { ERC20_ABI } from '../constants/erc20TokenAbi'
+import { Wallet as WalletsUtils } from '../utils';
+
 
 const ImportTokens: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: any }) => {
     const walletAddress: string = wallets.currentWallet.address;
     const provider = wallets.currentWallet.provider;
     const [name, setName] = useState<string>('');
     const [symbol, setSymbol] = useState<string>('');
-    const [tokenAddress, setTokenAddress] = useState<string>('0xB8c77482e45F1F44dE1745F52C74426C631bDD52');
+    const [tokenAddress, setTokenAddress] = useState<string>('0x6b175474e89094c44da98b954eedeac495271d0f');
     const [contract, setContract] = useState<any>();
     const [balance, setBalance] = useState<string>('0');
     const [decimals, setDecimals] = useState<number>(0);
     const [loader, setLoader] = useState<boolean>(false);
 
-
     async function addToken() {
 
-        // const token: ITokenStore = {
-        //     name: name,
-        //     symbol: symbol,
-        //     tokenAddress: tokenAddress,
-        //     decimals: decimals,
-        //     balance: ethers.utils.formatUnits(balance, decimals),
-        //     logo: ''
-        // }
+        const token: ITokenStore = {
+            name: name,
+            symbol: symbol,
+            tokenAddress: tokenAddress,
+            decimals: decimals,
+            balance: ethers.utils.formatUnits(balance, decimals),
+            logo: ''
+        }
         setLoader(true)
 
         setDecimals(decimals);
@@ -43,41 +44,32 @@ const ImportTokens: React.FC<any> = inject('wallets')(observer(({ wallets }: { w
         console.log('loading status ======= ', loader)
 
 
-        // TokenStore.addToken(token);
+        TokenStore.addToken(token);
 
     }
 
     useEffect(() => {
         const tokenDetails = async () => {
             setLoader(true)
-
             try {
                 // const signer = new ethers.Wallet(wallets.currentWallet.privateKey(), provider);
-                const contract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-                // console.log('contract a dd ******* ', contract)
-                // const network = await provider.getNetwork();
-                // console.log('Connected to network:', network);
-                // const balance = await contract.balanceOf(walletAddress);
-                // console.log('balance  ======= ', balance)
+                const contract = new ethers.Contract(tokenAddress, ERC20_ABI, WalletsUtils.devProvider);
 
+                const balance = await contract.balanceOf(walletAddress);
                 const decimals = await contract.decimals();
-                console.log('decimals  ======= ', decimals)
                 const symbol = await contract.symbol();
-                console.log('Token Symbol:', symbol);
+
+                setDecimals(decimals);
+                setContract(contract);
+                setSymbol(symbol);
+                setBalance(balance);
+                setLoader(false)
+
             } catch (error) {
                 console.error('Error fetching symbol:', error);
             }
 
-            setDecimals(decimals);
-            setContract(contract);
-            setSymbol(symbol);
-            setBalance(balance);
-            setLoader(false)
 
-            console.log('provider  ======= ', provider)
-
-
-            console.log('loading status ======= ', loader)
         }
 
         tokenDetails();

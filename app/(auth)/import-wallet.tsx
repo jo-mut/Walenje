@@ -42,9 +42,13 @@ export default function ImportWallet() {
   return (
     <SafeAreaView className='flex-1 bg-black'>
       <View className='flex-1'>
-        <View className='flex m-3 rounded-3xl py-5 bg-primaryGreyHex'>
+        <View
+          className='flex m-3 rounded-2xl py-5 bg-primaryGreyHex'>
           <InputField
+            containerStyle='px-4'
             placeholder="Write your seedphrase here"
+            multiline
+            placeholderTextColor="gray"
             value={seedphrase}
             onChangeText={(value: string) => {
               setSeedPhrase(value)
@@ -53,6 +57,7 @@ export default function ImportWallet() {
         </View>
         <View className='flex-1 justify-end m-5'>
           <Button
+            style='p-4'
             label='Continue'
             bgVariant='primary'
             onPress={() => (handleImportWallet())}>

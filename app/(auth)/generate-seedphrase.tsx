@@ -48,7 +48,7 @@ export default function GenerateSeedPhrase() {
           Write down your seedphrase
         </Text>
         <Text className='text-white mt-3'>
-          This is your seed phrase. Writeit down on a paper and keep it in a
+          This is your seed phrase. Write it down on a paper and keep it in a
           safe place. You'll be asked to re-enter this phrase (in-order) on
           the next step for confirmation.
         </Text>
@@ -107,6 +107,7 @@ export default function GenerateSeedPhrase() {
         {renderSeedPhrase()}
         <View className='flex-1 justify-end m-5'>
           <Button
+            style='p-4'
             label='Continue'
             bgVariant='primary'
             onPress={() => navigateToConfirmSeedphrase()}>
