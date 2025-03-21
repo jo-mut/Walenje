@@ -6,19 +6,14 @@ const INITIAL_STATE = {
 }
 
 export interface IToken {
-    tokens: any []
+    tokens: ITokenStore[]
 }
 
 export class TokenStore implements IToken {
-    @observable tokens: any = INITIAL_STATE.tokens;
+    @observable tokens: ITokenStore[] = INITIAL_STATE.tokens;
 
     @action addToken(token: ITokenStore) {
-        console.log("added token ", token)
         this.tokens.push(token)
-    }
-
-    @action setTokens = (tokens: any[])  =>{
-        this.tokens = tokens;
     }
 
     @action clearTokens() {

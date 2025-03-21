@@ -1,5 +1,5 @@
 import { Api as ApiService } from '../../services';
-import { Prices as PricesStore } from '../../stores';
+import { prices as PricesStore } from '../../stores';
 
 export async function getPrice() {
     PricesStore.isLoading(true);

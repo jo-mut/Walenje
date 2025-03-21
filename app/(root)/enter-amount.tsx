@@ -38,7 +38,7 @@ const EnterAmount = () => {
             keyboardType='numeric'
             placeholder="0.00 ETH"
             placeholderTextColor="white"
-            inputStyle='text-5xl flex-1'
+            inputStyle='text-5xl flex-1 text-center'
             value={amount}
             onChangeText={(value: string) => {
               setAmount(value)

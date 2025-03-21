@@ -6,10 +6,12 @@ import { stores } from './stores'
 import {
   useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider,
 } from '@tanstack/react-query'
+import { useEffect } from "react";
 
 
 export default function RootLayout() {
   const queryClient = new QueryClient()
+
 
   return (
     <Provider {...stores}>

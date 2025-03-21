@@ -2,7 +2,7 @@ import Snackbar from 'react-native-snackbar';
 import { Recents as RecentsService, Wallets as WalletsService } from '../../services';
 import * as store from '../../stores';
 
-export async function notify(title, duration, driver=Snackbar) {
+export async function notify(title: string, duration: any, driver=Snackbar) {
     switch (duration) {
 
         case 'long':
@@ -29,7 +29,7 @@ export async function eraseAllData() {
 
 function cleanStorage() {
     return [
-        RecentsService.removeRecentAddresses(),
+        RecentsService.deleteRecentAddress(),
         WalletsService.deleteWalletPKs()
     ];
 }

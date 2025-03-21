@@ -8,7 +8,6 @@ export async function GET(req: Request) {
     const coinId = urlParams.get('coinId') || "ethereum";
     const timestamp = urlParams.get('timestamp') || now;
 
-    // console.log(`urlParams `, urlParams);
 
     try {
         

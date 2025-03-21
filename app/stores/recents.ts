@@ -7,20 +7,20 @@ const INITIAL = {
 
 export class RecentsStore {
 
-    @observable list = INITIAL.list;
-    @observable loading = INITIAL.loading;
+    @observable list: string[] = INITIAL.list;
+    @observable loading: boolean = INITIAL.loading;
 
-    @action isLoading(state) {
+    @action isLoading(state: boolean) {
         this.loading = Boolean(state);
     }
 
-    @action addAddress(address) {
+    @action addAddress(address: string) {
         const index = this.list.findIndex(a => a === address);
         if (index > -1) return;
         this.list.push(address);
     }
 
-    @action loadAddresses(addresses) {
+    @action loadAddresses(addresses: string[]) {
         this.list = [];
         addresses.forEach(address => this.addAddress(address));
     }

@@ -12,6 +12,6 @@ export async function saveWallet(wallets: any[]) {
     await StorageService.setItem(WalletConstants.STORAGE_KEY, JSON.stringify(map));
 }
 
-export function deleteWallet() {
+export function deleteWalletPKs() {
     return StorageService.deleteItem(WalletConstants.STORAGE_KEY);
 }   

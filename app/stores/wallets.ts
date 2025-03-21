@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, Wallet } from "ethers";
 import { action, observable } from "mobx"
 
 const INITIAL_STATE = {
@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 
 
 class WalletsStore {
-    @observable list: any[] = INITIAL_STATE.list;
+    @observable list: Wallet[] = INITIAL_STATE.list;
     @observable loading = INITIAL_STATE.loading;
     @observable currentWallet = INITIAL_STATE.currentWallet
 
@@ -17,7 +17,7 @@ class WalletsStore {
         this.loading = Boolean(state)
     }
 
-    @action addWallet = (wallet: any) => {
+    @action addWallet = (wallet: Wallet) => {
         // if(!(wallet instanceof ethers.Wallet)) throw new Error('Invalid Wallet');
         // wallet.name = walletName;
         // wallet.description = walletDescription;

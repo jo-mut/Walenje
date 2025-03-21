@@ -18,21 +18,21 @@ export class PricesStore {
         if (isNaN(input) || typeof input !== 'number') throw new Error('The input is NaN');
     }
 
-    @action isLoading(state) {
+    @action isLoading(state: boolean) {
         this.loading = Boolean(state);
     }
 
-    @action setUSDRate(rate) {
+    @action setUSDRate(rate: number) {
         this.validateInput(rate);
         this.usd = Number(rate);
     }
     
-    @action setEURRate(rate) {
+    @action setEURRate(rate: number) {
         this.validateInput(rate);
         this.eur = Number(rate);
     }
     
-    @action setJMDRate(rate) {
+    @action setJMDRate(rate: number) {
         this.validateInput(rate);
         this.jmd = Number(rate);
     }

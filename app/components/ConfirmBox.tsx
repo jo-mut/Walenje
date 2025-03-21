@@ -36,7 +36,7 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
         } else {
             console.log("Please confirm your seedphrase")
         }
-       
+
 
     }
 
@@ -153,6 +153,7 @@ const ConfirmBox: React.FunctionComponent<ConfirmBoxProps> = ({ phrase }) => {
             {renderSeedPhrase()}
             <View className='flex-1 justify-end'>
                 <Button
+                    style='p-4'
                     label='Confirm you seedphrase'
                     bgVariant='primary'
                     onPress={() => onPressConfirm()}>

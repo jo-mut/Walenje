@@ -8,7 +8,7 @@ export async function loadRecents(store=RecentsStore, service=RecentsService) {
     store.isLoading(false);
 }
 
-export async function saveAddressToRecents(address, store=RecentsStore, service=RecentsService) {
+export async function saveAddressToRecents(address: string, store=RecentsStore, service=RecentsService) {
     store.isLoading(true);
     store.addAddress(address);
     await service.saveRecentAddresses(store.list);

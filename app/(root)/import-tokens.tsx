@@ -4,77 +4,70 @@ import InputField from '../components/InputField'
 import Button from '../components/Button'
 import { router } from 'expo-router'
 import { set } from 'lodash'
-import { tokens as TokenStore } from '../stores'
 import { ITokenStore } from '@/interfaces/tokens'
 import { ethers } from 'ethers'
 import { inject, observer } from 'mobx-react'
 import { ERC20_ABI } from '../constants/erc20TokenAbi'
 import { Wallet as WalletsUtils } from '../utils';
-
+import { tokens } from '../stores'
+import { Token as TokenActions } from '../common/actions'
+import { Token as TokenService } from '../services'
 
 const ImportTokens: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: any }) => {
     const walletAddress: string = wallets.currentWallet.address;
     const provider = wallets.currentWallet.provider;
-    const [name, setName] = useState<string>('');
     const [symbol, setSymbol] = useState<string>('');
-    const [tokenAddress, setTokenAddress] = useState<string>('0x6b175474e89094c44da98b954eedeac495271d0f');
-    const [contract, setContract] = useState<any>();
-    const [balance, setBalance] = useState<string>('0');
+    const [tokenAddress, setTokenAddress] = useState<string>('');
     const [decimals, setDecimals] = useState<number>(0);
     const [loader, setLoader] = useState<boolean>(false);
+    const [tokens, setTokens] = useState<ITokenStore[]>([]);
 
-    async function addToken() {
-
-        const token: ITokenStore = {
-            name: name,
-            symbol: symbol,
-            tokenAddress: tokenAddress,
-            decimals: decimals,
-            balance: ethers.utils.formatUnits(balance, decimals),
-            logo: ''
-        }
-        setLoader(true)
-
-        setDecimals(decimals);
-        setContract(contract);
-        setSymbol(symbol);
-        setBalance(balance);
-        setLoader(false)
-
-        console.log('loading status ======= ', loader)
-
-
-        TokenStore.addToken(token);
-
+    const addToken = () => {
+        TokenActions.saveTokens(tokens);
+        router.back();
     }
 
     useEffect(() => {
         const tokenDetails = async () => {
             setLoader(true)
             try {
-                // const signer = new ethers.Wallet(wallets.currentWallet.privateKey(), provider);
                 const contract = new ethers.Contract(tokenAddress, ERC20_ABI, WalletsUtils.devProvider);
-
                 const balance = await contract.balanceOf(walletAddress);
                 const decimals = await contract.decimals();
                 const symbol = await contract.symbol();
+                const name = await contract.name();
 
                 setDecimals(decimals);
-                setContract(contract);
                 setSymbol(symbol);
-                setBalance(balance);
                 setLoader(false)
+
+                const token: ITokenStore = {
+                    name: name,
+                    symbol: symbol,
+                    tokenAddress: tokenAddress,
+                    decimals: decimals,
+                    balance: ethers.utils.formatUnits(balance, decimals),
+                    logo: ''
+                }
+
+                setTokens([...tokens, token])
 
             } catch (error) {
                 console.error('Error fetching symbol:', error);
             }
-
-
         }
 
         tokenDetails();
-    }, [contract])
+    }, [tokenAddress])
 
+
+    useEffect(() => {
+        const loadTokens = async () => {
+            const tokens: ITokenStore[] = await TokenService.loadTokens();
+            setTokens(tokens);
+        }
+        loadTokens();
+    }, [])
 
     return (
         <View className='flex-1 bg-black px-5'>

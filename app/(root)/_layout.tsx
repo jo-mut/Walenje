@@ -56,7 +56,7 @@ export default function RootLayout() {
           headerTitle: "Enter Amount",
           headerTintColor: 'white',
           headerBackground: () => (
-            <View className='bg-black' />
+            <View className='flex-1 bg-black' />
           ),
           headerLeft: () => (
             <TouchableOpacity

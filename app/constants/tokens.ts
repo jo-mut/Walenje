@@ -1,1 +1,1 @@
-export const TOKEN_KEY = '@Storage/Recents';
+export const TOKEN_KEY = '@Storage/Tokens';

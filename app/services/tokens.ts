@@ -1,11 +1,14 @@
+import { ITokenStore } from "@/interfaces/tokens";
 import { Token } from "../constants";
 import * as StorageService from './storage';
 
 export async function loadTokens() {
-    return await StorageService.getItem(Token.TOKEN_KEY);
+    const tokens = await StorageService.getItem(Token.TOKEN_KEY);
+    return tokens ? JSON.parse(tokens) : [];
 }
 
-export async function saveTokens(tokens: string []) {
+export async function saveTokens(tokens: ITokenStore[]) {
+    console.log("save tokens into an array", tokens)
     return await StorageService.setItem(Token.TOKEN_KEY, JSON.stringify(tokens));
 }
 

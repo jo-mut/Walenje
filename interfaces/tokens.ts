@@ -1,8 +1,11 @@
 export interface ITokenStore {
-    name: string
+    name?: string
     symbol: string;
     balance: string;
-    decimals: number;
-    tokenAddress: string;
-    logo: string;
+    decimals?: number;
+    tokenAddress?: string;
+    balanceValue?: string;
+    priceChange?: string;
+    value?: string
+    logo?: string;
 }

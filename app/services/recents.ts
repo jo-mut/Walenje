@@ -1,7 +1,7 @@
 import { Recents } from '../constants';
 import * as StorageService from './storage';
 
-export async function recentAddresses() {
+export async function loadRecentAddresses() {
     const recents = await StorageService.getItem(Recents.STORAGE_KEY);
     return recents ? JSON.parse(recents) : [];
 }

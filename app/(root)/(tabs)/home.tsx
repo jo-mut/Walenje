@@ -24,15 +24,15 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
     const [selectedTab, setSelectedTab] = useState("Token");
     const [balance, setBalance] = useState();
     const [balanceValue, setBalanceValue] = useState();
-    const [priceChange, setPriceChange] = useState('9.07%');
-    const tabs: string[] = ["Tokens", "NFTs", "Collectibles", "Transactions"]
+    const [priceChange, setPriceChange] = useState();
+    const tabs: string[] = ["Tokens", "NFTs", "Collectibles", "Transactions", "Swap"]
 
     const selectTab = (tab: string) => {
         setSelectedTab(tab);
     }
 
     const walletBalance = async () => {
-        const currentBalance = await WalletsAction.currentWalletBalance(wallets.currentWallet);
+        const currentBalance = await WalletsAction.currentWalletBalance(wallets.currentWallet, address);
         setBalance(await WalletsUtils.formatBalance(currentBalance))
         console.log("current balance ", balance)
     }
@@ -43,12 +43,12 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
 
     return (
         <SafeAreaView className={`flex-1 bg-black`}>
-            <View className={`justify-center mx-5 p-10 mt-5 rounded-3xl`}>
+            <View className={`justify-center mx-5 py-10 mt-5 rounded-3xl`}>
                 <Text className='text-white font-JakartaBold 
-                text-4xl font-semibold'>{balance} {"ETH"}</Text>
+                text-4xl font-semibold'>{balance || 0.0} {"ETH"}</Text>
                 <View className='flex flex-row'>
-                    <Text className='text-white text-4xl font-semibold'>{balanceValue}</Text>
-                    <Text className='text-white text-xl'>{priceChange}</Text>
+                    <Text className='text-white text-xl'>{balanceValue || 0.0}</Text>
+                    <Text className='text-white text-xl'>{priceChange || " 0.0%"}</Text>
                 </View>
             </View>
             <View className={`flex-row mx-5 my-5 gap-5`}>
@@ -62,6 +62,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
                                 size={24}
                                 color="#fff"
                             />}
+                        style='p-3'
                         label='Send'
                         onPress={() => {
                             router.push({

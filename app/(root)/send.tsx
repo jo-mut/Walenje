@@ -84,7 +84,7 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
                 inputStyle='p-4'
                 containerStyle='border border-gray-800' />
             </View>
-            <View className='mr-3'>
+            <View className='ml-3'>
               <TouchableOpacity
                 onPress={() => router.push('/scan')}>
                 <IconView

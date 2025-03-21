@@ -26,7 +26,7 @@ const InputField = ({
                     {icon && <Image className='w-6 h-6 ml-4'
                         source={icon} />}
                     <TextInput
-                        className={`${inputStyle} text-[15px] flex-1 text-left text-white placeholder-gray-500`}
+                        className={`${inputStyle} flex-1 text-left text-white placeholder-gray-500`}
                         secureTextEntry={secureTextEntry}
                         {...props} />
                 </View>
