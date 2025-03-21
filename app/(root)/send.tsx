@@ -41,7 +41,7 @@ const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
       <View className='flex-1 mx-5'>
         <View
           className='flex mt-5'>
-          <View className='flex border  rounded-2xl'>
+          <View className='flex border rounded-2xl'>
             <InputField
               value={wallets.currentWallet.address}
               onChangeText={(value: string) => {

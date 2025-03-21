@@ -20,6 +20,7 @@ import { Icons } from '../components/icons'
 import TransactionItem from '../components/TransactionItem'
 import TokenItem from '../components/TokenItem'
 import { ITokenStore } from '@/interfaces/tokens'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
 const Home: React.FC<any> = inject('wallets', "tokens")(observer(
@@ -37,9 +38,6 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
         const [fiatValue, setFiatValue] = useState('');
         const [transactionHistory, setTransactionHistory] = useState<any>();
         const tabs: string[] = ["Tokens", "NFTs", "Transactions"]
-
-        console.log("tokens ***** ", importedTokens)
-
 
         const getPrice = useQuery({
             queryKey: ['price'],
@@ -91,7 +89,6 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
         const walletBalance = async () => {
             try {
                 const currentBalance = await wallets.currentWallet.provider.getBalance(address);
-                console.log("balance currentBalance === ", currentBalance);
                 const formattedBalance = await WalletsUtils.formatBalance(currentBalance);
                 const balanceV = Number(tokenValue * Number(WalletsUtils.formatBalance(formattedBalance))).toFixed(2)
                 setBalance(formattedBalance);
@@ -160,157 +157,134 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
         }, [tokenValue])
 
 
-        useEffect(() => {
-            const loadTokens = async () => {
-                await TokenService.deleteToken();
-                const tokens: ITokenStore[] = await TokenService.loadTokens();
-                console.log("tokens have been loaded now", tokens)
-                tokens.map(t => {
-                    console.log("tokens have been loaded now", t)
-                })
-            }
-            loadTokens()
-        }, [])
-
-
         return (
-            <SafeAreaView className={`flex-1 bg-black`}>
-                <View className={`justify-center m-5  mt-20 rounded-3xl`}>
-                    <Text className='text-white font-JakartaBold 
-                text-4xl font-semibold'>{0.47995} {"ETH"}</Text>
-                    <View className='flex flex-row'>
-                        <Text className='text-white text-xl font-semibold'>{balanceValue}</Text>
-                        <Text className='text-xl text-green-500 ml-3'>{priceChange}</Text>
+            <SafeAreaView
+                className={`flex-1 bg-black`}>
+                <View className='flex-1 m-5'>
+                    <View
+                        className={`justify-center mt-10 rounded-3xl`}>
+                            
+                        <Text className='text-white text-4xl font-semibold'>{0.47995} {"ETH"}</Text>
+                        <View className='flex flex-row'>
+                            <Text className='text-white text-xl font-semibold'>{balanceValue}</Text>
+                            <Text className='text-xl text-green-500 ml-3'>{priceChange}</Text>
+                        </View>
                     </View>
-                </View>
-                <View className={`flex-row mx-5 my-5 gap-5`}>
-                    <View className={`flex-1 flex-row justify-center items-center 
-                    bg-primaryGreyHex rounded-2xl p-1`}>
-                        <Button
-                            style='p-2'
-                            children={
-                                <IconView
-                                    iconType="MaterialCommunityIcons"
-                                    iconName="send"
-                                    size={24}
-                                    color="#fff"
-                                />}
-                            label='Send'
-                            onPress={() => {
-                                router.push({
-                                    pathname: '/send',
-                                    params: { fromAddress: address }
-                                })
-                            }} />
+                    <View className={`flex-row my-5 gap-5`}>
+                        <View className={`flex-1 flex-row justify-center items-center 
+                            bg-primaryGreyHex rounded-2xl p-1`}>
+                            <Button
+                                style='p-2'
+                                children={
+                                    <IconView
+                                        iconType="MaterialCommunityIcons"
+                                        iconName="send"
+                                        size={24}
+                                        color="#fff"
+                                    />}
+                                label='Send'
+                                onPress={() => {
+                                    router.push({
+                                        pathname: '/send',
+                                        params: { fromAddress: address }
+                                    })
+                                }} />
+                        </View>
+                        <View className={`flex-1 flex-row justify-center items-center 
+                             bg-primaryGreyHex rounded-2xl p-1`}>
+                            <Button
+                                style='p-2'
+                                children={
+                                    <IconView
+                                        iconType="MaterialCommunityIcons"
+                                        iconName="check"
+                                        size={24}
+                                        color="#fff"
+                                    />}
+                                label='Receive'
+                                onPress={() => setModalVisible(true)} />
+                        </View>
                     </View>
-                    <View className={`flex-1 flex-row justify-center items-center 
-                    bg-primaryGreyHex rounded-2xl p-1`}>
-                        <Button
-                            style='p-2'
-                            children={
-                                <IconView
-                                    iconType="MaterialCommunityIcons"
-                                    iconName="check"
-                                    size={24}
-                                    color="#fff"
-                                />}
-                            label='Receive'
-                            onPress={() => setModalVisible(true)} />
-                    </View>
-                    <View className={`flex-1 flex-row justify-center items-center 
-                    bg-primaryGreyHex rounded-2xl p-1`}>
-                        <Button
-                            style='p-2'
-                            children={
-                                <IconView
-                                    iconType="MaterialCommunityIcons"
-                                    iconName="check"
-                                    size={24}
-                                    color="#fff"
-                                />}
-                            label='Buy'
-                            onPress={() => setModalVisible(true)} />
-                    </View>
-                </View>
-                <Modal
-                    visible={modalVisible}
-                    animationType="slide"
-                    transparent={true}
-                    onRequestClose={() => setModalVisible(false)}>
-                    <View className='flex-1  justify-center items-center'
-                        style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-                        <TouchableOpacity
-                            className='flex-1 justify-center items-center'
-                            onPress={() => setModalVisible(false)}
-                            activeOpacity={1}>
-                            <View className='p-3 m-5 rounded-3xl justify-center items-center'>
-                                <View className='flex justify-center items-center'>
-                                    <View className='bg-white p-3 rounded-lg flex'>
-                                        <QRCode
-                                            size={220}
-                                            value={address} />
-                                    </View>
-                                    <View className='flex-row mt-5 p-3'>
-                                        <Text className='text-white text-sm mr-3 truncate'>
-                                            {address}
-                                        </Text>
-                                        <IconView
-                                            iconType="MaterialCommunityIcons"
-                                            iconName="copy"
-                                            size={24}
-                                            color="#fff" />
+                    <Modal
+                        visible={modalVisible}
+                        animationType="slide"
+                        transparent={true}
+                        onRequestClose={() => setModalVisible(false)}>
+                        <View className='flex-1 justify-center items-center'
+                            style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+                            <TouchableOpacity
+                                className='flex-1 justify-center items-center'
+                                onPress={() => setModalVisible(false)}
+                                activeOpacity={1}>
+                                <View className='p-3 m-5 rounded-3xl justify-center items-center'>
+                                    <View className='flex justify-center items-center'>
+                                        <View className='bg-white p-3 rounded-lg flex'>
+                                            <QRCode
+                                                size={220}
+                                                value={address} />
+                                        </View>
+                                        <View className='flex-row mt-5 p-3'>
+                                            <Text className='text-white text-sm mr-3 truncate'>
+                                                {address}
+                                            </Text>
+                                            <IconView
+                                                iconType="MaterialCommunityIcons"
+                                                iconName="copy"
+                                                size={24}
+                                                color="#fff" />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
-                <View className='flex-1'>
-                    <Tabs
-                        tabs={tabs.map((tab: string) => (
-                            <Tab
-                                isActive={tab === selectedTab ? activeTab : !activeTab}
-                                onPress={() => (selectTab(tab))}
-                                label={tab} />
-                        ))} />
-
-                    {selectedTab === "Tokens" &&
-                        <View className='flex-1 m-5'>
-                            <View className='flex-row '>
-                                <Text className='flex-1 text-white text-lg font-semibold'>Add Tokens</Text>
-                                <TouchableOpacity
-                                    onPress={() => (
-                                        router.push('/import-tokens')
-                                    )}>
-                                    <Image
-                                        resizeMode='contain'
-                                        source={Icons.add}
-                                        tintColor={'white'}
-                                        className='w-5 h-5 mx-5' />
-                                </TouchableOpacity>
-                            </View>
-                            {importedTokens?.map((token: any) => (
-                                <TokenItem
-                                    logo={token.logo}
-                                    symbol={token.symbol}
-                                    balanceValue=''
-                                    priceChange=''
-                                    balance={token.balance} />
-                            ))}
+                            </TouchableOpacity>
                         </View>
-                    }
+                    </Modal>
+                    <View className='flex-1 mt-5'>
+                        <Tabs
+                            tabs={tabs.map((tab: string) => (
+                                <Tab
+                                    isActive={tab === selectedTab ? activeTab : !activeTab}
+                                    onPress={() => (selectTab(tab))}
+                                    label={tab} />
+                            ))} />
 
-                    {selectedTab === "Transactions" &&
-                        transactionHistory?.map((item: any) => (
-                            <TransactionItem
-                                timestamp={formatData(item.timeStamp)}
-                                from={item.from}
-                                to={item.to}
-                                value={formatAmount(item.value)}
-                                txreceipt_status={transactionStatus(item.txreceipt_status)}
-                                type={transactionType(item.from)}
-                                fiatValue={fiatAmount(item.value)} />
-                        ))}
+                        {selectedTab === "Tokens" &&
+                            <View className='flex-1 my-5'>
+                                <View className='flex-row '>
+                                    <Text className='flex-1 text-white text-lg font-semibold'>Add Tokens</Text>
+                                    <TouchableOpacity
+                                        onPress={() => (
+                                            router.push('/import-tokens')
+                                        )}>
+                                        <Image
+                                            resizeMode='contain'
+                                            source={Icons.add}
+                                            tintColor={'white'}
+                                            className='w-5 h-5 mx-5' />
+                                    </TouchableOpacity>
+                                </View>
+                                {importedTokens?.map((token: any) => (
+                                    <TokenItem
+                                        logo={token.logo}
+                                        symbol={token.symbol}
+                                        balanceValue=''
+                                        priceChange=''
+                                        balance={token.balance} />
+                                ))}
+                            </View>
+                        }
+
+                        {selectedTab === "Transactions" &&
+                            transactionHistory?.map((item: any) => (
+                                <TransactionItem
+                                    timestamp={formatData(item.timeStamp)}
+                                    from={item.from}
+                                    to={item.to}
+                                    value={formatAmount(item.value)}
+                                    txreceipt_status={transactionStatus(item.txreceipt_status)}
+                                    type={transactionType(item.from)}
+                                    fiatValue={fiatAmount(item.value)} />
+                            ))}
+                    </View>
                 </View>
             </SafeAreaView>
         )

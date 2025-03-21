@@ -16,33 +16,41 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
         const [totalAmount, setTotalAmount] = useState<number>();
         const [dollarValue, setDollarValue] = useState();
         const [transaction, setTransaction] = useState<any>();
+        const [fee, setFee] = useState<string>();
+        const [fiatFee, setFiatFee] = useState<string>();
+        const [fiatAmount, setFiatAmount] = useState<string>();
 
 
         const estimatedFee = () => {
             const fee: any = WalletUtils.estimateFee(transaction);
             const formatBalance = WalletUtils.formatBalance(fee);
+            setFee(fee)
+            setTotalAmount(Number(formatBalance) + Number(amount))
             return formatBalance;
         }
 
-        const fiatAmount = () => {
-            return Number(prices.usd * Number(WalletUtils.formatBalance(transaction.value))).toFixed(2);
+        const calculateFiatAmount = () => {
+            const fiatAmount = Number(prices.usd * Number(WalletUtils.formatBalance(transaction.value))).toFixed(2);
+            setFiatAmount(fiatAmount);
+            return fiatAmount;
         }
 
-        const fiatEstimatedFee = () => {
-            return Number(prices.usd * Number(estimatedFee())).toFixed(2);
+        const calculatedFiatEstimatedFee = () => {
+            const fiatFee: string = Number(prices.usd * Number(estimatedFee())).toFixed(2);
+            setFiatFee(fiatFee)
+            return fiatFee
         }
 
         const createTransaction = async () => {
             const txn = await TransactionUtils.createTransaction(toAddress, amount);
             setTransaction(txn);
-            console.log("transaction value", txn)
         }
 
         const sendTransaction = async () => {
-            fiatAmount()
-            fiatEstimatedFee()
-
             wallet.isLoading(true);
+            calculateFiatAmount()
+            calculatedFiatEstimatedFee()
+
             console.log("wallet ", wallets.list[0])
 
             try {
@@ -62,12 +70,16 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
 
         useEffect(() => {
             createTransaction()
-
-            // if (transaction) {
-            //     console.log("set total amount", transaction)
-            //     setTotalAmount((parseInt(amount) + estimatedFee()))
-            // }
         }, [])
+
+        useEffect(() => {
+            if (transaction) {
+                calculateFiatAmount()
+                calculatedFiatEstimatedFee()
+                console.log("total amount ", totalAmount)
+
+            }
+        }, [transaction])
 
         return (
             <SafeAreaView className='flex-1 bg-black'>
@@ -100,29 +112,31 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
                                 containerStyle='border border-gray-800' />
                         </View>
                     </View>
-                    <View className='flex mt-10 bg-gray-800 rounded-2xl p-3'>
-                        <View className='flex flex-row justify-between'>
-                            <Text className='text-lg text-white'>Amount</Text>
-                            <Text className='text-lg text-white'>{amount}</Text>
-                        </View>
-                        <View className='flex flex-row items-center justify-between'>
-                            <View className='flex flex-row items-center'>
-                                <Text className='text-gray-300 text-sm mr-3'>Network fee</Text>
-                                <TouchableOpacity>
-                                    <View className='bg-cyan-500 rounded px-3 items-center justify-center'>
-                                        <Text className='text-white text-sm'>Edit</Text>
-                                    </View>
-                                </TouchableOpacity>
+                    <View className='flex mt-10 bg-gray-900 rounded-2xl'>
+                        <View className='p-5'>
+                            <View className='flex flex-row justify-between'>
+                                <Text className='text-lg text-white'>Amount</Text>
+                                <Text className='text-lg text-white'>{amount} ETH</Text>
                             </View>
-                            <Text className='text-lg text-white'>{ }</Text>
-                        </View>
-                        <View className='h-[1px] bg-slate-600 mt-5 '></View>
-                        <View className='flex flex-row items-center justify-between py-3'>
                             <View className='flex flex-row items-center justify-between'>
-                                <Text className='text-lg text-white'>Total Amount</Text>
-                                <View className='flex'>
-                                    <Text className='text-lg text-white'>{totalAmount}</Text>
-                                    <Text className='text-lg text-white'>{ }</Text>
+                                <View className='flex flex-row items-center'>
+                                    <Text className='text-gray-300 text-sm mr-3'>Network fee</Text>
+                                    <TouchableOpacity>
+                                        <View className='bg-cyan-900 rounded px-3 items-center justify-center'>
+                                            <Text className='text-white text-sm'>Edit</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                <Text className='text-lg text-white'>{fee} ETH</Text>
+                            </View>
+                        </View>
+                        <View className='h-[1px] bg-slate-800 my-5'/>
+                        <View className='flex flex-row items-center justify-between p-5'>
+                            <View className='flex flex-row  justify-between'>
+                                <Text className='flex-1 text-lg text-white'>Total Amount</Text>
+                                <View className='items-end'>
+                                    <Text className='text-lg text-white'>{totalAmount?.toFixed(6)} ETH</Text>
+                                    <Text className='text-sm text-gray-300'>{fiatAmount}</Text>
                                 </View>
                             </View>
                         </View>
@@ -132,7 +146,7 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
                             style='p-4'
                             label='Send'
                             bgVariant='primary'
-                            onPress={() => (sendTransaction())}>
+                            onPress={() => sendTransaction()}>
                         </Button>
                     </View>
                 </View>

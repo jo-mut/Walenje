@@ -16,7 +16,7 @@ const EnterAmount = () => {
   return (
     <SafeAreaView className='flex-1 bg-black'>
       <View className='flex-1 px-5'>
-        <View className='flex-row mt-10 justify-between items-center'>
+        <View className='mt-10 justify-center items-center'>
           <View className='flex-row justify-between rounded-xl px-3 bg-gray-800 items-center'>
             <Text className='text-white mr-3 p-3'>ETH</Text>
             <TouchableOpacity>
@@ -27,24 +27,27 @@ const EnterAmount = () => {
                 color="#fff" />
             </TouchableOpacity>
           </View>
-          <View className='justify-center items-center'>
+          <View className='absolute right-0 justify-center ml-10 items-center'>
             <TouchableOpacity>
               <Text className='text-white text-lg'>USE MAX</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View className='flex bg-gray-800 mt-5 px-3 py-5 rounded-2xl'>
+        <View className='flex mt-5 px-3 py-5 rounded-2xl'>
           <InputField
             keyboardType='numeric'
-            placeholder="0.00 ETH"
+            placeholder="0.00"
             placeholderTextColor="white"
-            inputStyle='text-5xl flex-1 text-center'
+            inputStyle='text-4xl flex-1 text-center'
             value={amount}
             onChangeText={(value: string) => {
               setAmount(value)
             }} />
-          <Text className='text-white text-sm '>{amountValue? "$" + amountValue : "$0.00"}</Text>
+          <View className='flex flex-row w-auto self-center bg-cyan-900 rounded-xl py-2 px-5 mt-5'>
+            <Text className='text-gray-300 text-center text-xl'>{amountValue ? "$" + amountValue : "$0.00"}</Text>
+          </View>
         </View>
+        <Text className='text-gray-300 text-center'>{"Balance:   0.00"}</Text>
         <View className='flex-1 justify-end'>
           <Button
             style='p-4'
