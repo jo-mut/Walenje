@@ -23,16 +23,16 @@ import { ITokenStore } from '@/interfaces/tokens'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
-const Home: React.FC<any> = inject('wallets', "tokens")(observer(
-    ({ wallets, tokens }: { wallets: any, tokens: any }) => {
+const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
+    ({ wallets, tokens, prices }) => {
         const address: string = wallets.currentWallet.address;
         const importedTokens: ITokenStore[] = tokens.tokens
         const router = useRouter();
         const [modalVisible, setModalVisible] = useState(false);
         const [activeTab, setActiveTab] = useState(true);
         const [selectedTab, setSelectedTab] = useState("Tokens");
-        const [balance, setBalance] = useState();
-        const [balanceValue, setBalanceValue] = useState('');
+        const [balance, setBalance] = useState<string>('');
+        const [balanceValue, setBalanceValue] = useState<string>('');
         const [tokenValue, setTokenValue] = useState(0);
         const [priceChange, setPriceChange] = useState('9.07%');
         const [fiatValue, setFiatValue] = useState('');
@@ -85,27 +85,7 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
             walletBalance()
         }
 
-
-        const walletBalance = async () => {
-            try {
-                const currentBalance = await wallets.currentWallet.provider.getBalance(address);
-                const formattedBalance = await WalletsUtils.formatBalance(currentBalance);
-                const balanceV = Number(tokenValue * Number(WalletsUtils.formatBalance(formattedBalance))).toFixed(2)
-                setBalance(formattedBalance);
-                setBalanceValue(balanceV);
-            } catch (error) {
-                console.error("Error fetching balance:", error);
-            }
-        };
-
-        const category = (from: string) => {
-            if (from !== address) {
-                return "Received"
-            }
-
-            return "Sent"
-        }
-
+      
         const transactionType = (from: string) => {
             if (from !== address) {
                 return "Received"
@@ -115,13 +95,14 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
         }
 
         const fiatAmount = (amount: string) => {
-            return Number(tokenValue * Number(WalletsUtils.formatBalance(amount))).toFixed(2);
+            return Number(prices.usd * Number(WalletsUtils.formatBalance(amount))).toFixed(2);
 
         }
 
         const formatAmount = (amount: string) => {
             return Number(WalletsUtils.formatBalance(amount)).toFixed(2)
         }
+
 
         const formatData = (timestamp: number) => {
             return format(new Date(timestamp * 1000), "MMM d 'at' h:mm a");
@@ -138,6 +119,13 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
             }
         }
 
+        const walletBalance = async () => {
+            const currentBalance = await WalletsAction.walletBalance(wallets.currentWallet, address);
+            const formattedBalance = await WalletsUtils.formatBalance(currentBalance)
+            setBalance(Number(formattedBalance).toFixed(5));
+        }
+
+
         useEffect(() => {
             if (!transactions) {
 
@@ -146,11 +134,12 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
 
 
         useEffect(() => {
-            if (!address) {
-                walletBalance();
+            walletBalance();
+            if (balance) {
+                const fiatBalance = Number(prices.usd * Number(balance)).toFixed(2);
+                setBalanceValue(fiatBalance)
             }
-        }, [address]);
-
+        }, [balance]);
 
         useEffect(() => {
             setTokenValue(getPrice.data?.data?.USD);
@@ -163,8 +152,8 @@ const Home: React.FC<any> = inject('wallets', "tokens")(observer(
                 <View className='flex-1 m-5'>
                     <View
                         className={`justify-center mt-10 rounded-3xl`}>
-                            
-                        <Text className='text-white text-4xl font-semibold'>{0.47995} {"ETH"}</Text>
+
+                        <Text className='text-white text-4xl font-semibold'>{balance} {"ETH"}</Text>
                         <View className='flex flex-row'>
                             <Text className='text-white text-xl font-semibold'>{balanceValue}</Text>
                             <Text className='text-xl text-green-500 ml-3'>{priceChange}</Text>

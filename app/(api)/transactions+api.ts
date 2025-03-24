@@ -7,8 +7,8 @@ export async function GET(req: Request) {
     const address = urlParams.get('address') || "0x7f97AF011af788fbea229D2555a1f0728D97B7D8";
 
     const ETHERSCAN = (process.env.NODE_ENV === 'production') ?
-        'https://api.etherscan.io/api' :
-        'https://sepolia.etherscan.io/api';
+        'https://api.etherscan.io/api?' :
+        'https://sepolia.etherscan.io/api?';
 
 
     const url = new URL('https://api.etherscan.io/api?');

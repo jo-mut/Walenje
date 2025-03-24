@@ -3,15 +3,20 @@ import { Token as TokenActions, Wallet as WalletActions } from './common/actions
 import { ITokenStore } from "@/interfaces/tokens";
 import { useEffect } from "react";
 import { Token as TokenService } from "@/app/services";
+import { inject, observer } from "mobx-react";
 
 
-export default function Index() {
-  TokenActions.loadTokens();
-  const isWalletEmpty = WalletActions.loadWallets()
+const Index = inject('wallets', "tokens", "prices")(observer(
+  ({ wallets, tokens, prices }) => {
 
-  if (isWalletEmpty != null) {
-    return <Redirect href={'/(root)/home'} />
-  }
+    TokenActions.loadTokens();
 
-  return <Redirect href={'/(auth)/sign-up'} />
-}
+    if (!wallets.list) {
+      return <Redirect href={'/(root)/home'} />
+    }
+
+    return <Redirect href={'/(auth)/sign-up'} />
+
+  }))
+
+export default Index

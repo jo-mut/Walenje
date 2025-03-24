@@ -15,7 +15,6 @@ import { Token as TokenService } from '../services'
 
 const ImportTokens: React.FC<any> = inject('wallets')(observer(({ wallets }: { wallets: any }) => {
     const walletAddress: string = wallets.currentWallet.address;
-    const provider = wallets.currentWallet.provider;
     const [symbol, setSymbol] = useState<string>('');
     const [tokenAddress, setTokenAddress] = useState<string>('');
     const [decimals, setDecimals] = useState<number>(0);

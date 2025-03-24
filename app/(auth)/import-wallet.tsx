@@ -17,7 +17,7 @@ export default function ImportWallet() {
   }
 
   const navigateToLandingPage = () => {
-    router.push('/(root)/(tabs)/home')
+    router.push('/(root)/home')
   }
 
   const handleImportWallet = async () => {

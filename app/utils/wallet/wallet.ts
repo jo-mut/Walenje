@@ -26,7 +26,8 @@ export function loadWalletFromMnemonics(mnemonics: any, account: number) {
         mnemonics = mnemonics.join(' ');
         const wallet = ethers.Wallet.fromMnemonic(mnemonics,  "m/44'/60'/0'/0/" + account);
         console.log("wallet :", wallet);
-        const connectedWallet = wallet.connect(provider);
+        console.log("network :", network);
+        const connectedWallet = wallet.connect(devProvider);
         return connectedWallet;
     }
 }

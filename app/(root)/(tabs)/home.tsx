@@ -32,7 +32,7 @@ const Home: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
     }
 
     const walletBalance = async () => {
-        const currentBalance = await WalletsAction.currentWalletBalance(wallets.currentWallet, address);
+        const currentBalance = await WalletsAction.walletBalance(wallets.currentWallet, address);
         setBalance(await WalletsUtils.formatBalance(currentBalance))
         console.log("current balance ", balance)
     }

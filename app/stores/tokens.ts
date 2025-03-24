@@ -19,6 +19,10 @@ export class TokenStore implements IToken {
     @action clearTokens() {
         this.tokens = [];
     }
+
+    @action reset() {
+        this.tokens = INITIAL_STATE.tokens;
+    }
 }
 
 export default new TokenStore();

@@ -10,12 +10,6 @@ export async function waitForTransaction(wallet: Wallet, txn: Transaction) {
     notify('Transaction confirmed', 500);
 }
 
-// async function sendEther(wallet: Wallet, destination: string, amount, options) {
-//     const txn: Transaction = await TransactionService.sendEther(wallet, destination, amount, options);
-//     WalletStore.addPendingTransaction(txn);
-//     waitForTransaction(wallet, txn);
-// }
-
 export async function sendTransaction(wallet: Wallet, txn: Transaction) {
     if(!(wallet instanceof Wallet)) throw new Error('Invalid wallet');
     txn = await TransactionService.sendTransaction(wallet, txn);
