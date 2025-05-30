@@ -1,5 +1,6 @@
 import { ethers, Wallet } from "ethers";
 import { action, observable } from "mobx"
+import { provider } from "../utils/wallet/wallet";
 
 const INITIAL_STATE = {
     list: [],
@@ -13,7 +14,7 @@ class WalletsStore {
     @observable loading = INITIAL_STATE.loading;
     @observable currentWallet = INITIAL_STATE.currentWallet
 
-    @action isLoading = (state: boolean) =>{
+    @action isLoading = (state: boolean) => {
         this.loading = Boolean(state)
     }
 
@@ -31,7 +32,7 @@ class WalletsStore {
 
     @action setBalance = (address: any, amount: number) => {
         const wallet: any = this.list.find(wallet => wallet.getAddress == address);
-        if(!wallet) throw new Error('Wallet not found');
+        if (!wallet) throw new Error('Wallet not found');
         wallet.balance = amount;
         const otherWallets = this.list.filter(wallet => wallet.getAddress() !== address);
         this.list = [...otherWallets, wallet]

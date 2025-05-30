@@ -1,20 +1,23 @@
 import { Url } from "../constants";
 
 const API_KEY = process.env.ETHERSCAN_API_KEY!;
+const ETHERSCAN_URL = process.env.NODE_ENV === 'production' ?
+    process.env.ETHERSCAN_MAINNET : process.env.ETHERSCAN_SEPOLIA
+
 
 export async function GET(req: Request) {
     const urlParams = new URL(req.url).searchParams;
     const address = urlParams.get('address') || "0x7f97AF011af788fbea229D2555a1f0728D97B7D8";
 
-    const ETHERSCAN = (process.env.NODE_ENV === 'production') ?
+    const ETHERSCAN = process.env.NODE_ENV === 'production' ?
         'https://api.etherscan.io/api?' :
         'https://sepolia.etherscan.io/api?';
 
 
     const url = new URL('https://api.etherscan.io/api?');
-    url.searchParams.append('module', 'account'); 
+    url.searchParams.append('module', 'account');
     url.searchParams.append('action', 'txlist');
-    url.searchParams.append('address', address); 
+    url.searchParams.append('address', address);
     url.searchParams.append('startblock', '0');
     url.searchParams.append('endblock', '99999999');
     url.searchParams.append('page', '1');

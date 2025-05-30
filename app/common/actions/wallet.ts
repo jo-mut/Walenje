@@ -13,7 +13,7 @@ export async function addWallet(wallet: any) {
 
 export async function loadWallets() {
     WalletsStore.isLoading(true);
-    const pks: ethers.Wallet[] = await WalletsService.loadWallet();
+    const pks: ethers.Wallet[] = await WalletsService.loadWallets();
     pks.map(pk => {
         WalletsStore.addWallet(pk);
     });
@@ -21,6 +21,7 @@ export async function loadWallets() {
 }
 
 export const walletBalance = async (wallet: any, address: string) => {
+    console.log("wallet provider ", wallet.provider)
     const balance = await wallet.provider.getBalance(address);
     return balance;
 }

@@ -39,6 +39,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "TEST_SEED_PHRASE": "process.env.TEST_SEED_PHRASE"
     }
   }
 }

@@ -20,6 +20,8 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
         const [fiatFee, setFiatFee] = useState<string>();
         const [fiatAmount, setFiatAmount] = useState<string>();
 
+        console.log("toAddress CONFIRM ", toAddress)
+
 
         const estimatedFee = () => {
             const fee: any = WalletUtils.estimateFee(transaction);
@@ -54,11 +56,11 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
             console.log("wallet ", wallets.list[0])
 
             try {
-                const txn = await TransactionActions.sendTransaction(wallets.list[0], transaction);
+                const txn = await TransactionActions.sendTransaction(wallets.currentWallet, transaction);
                 console.log("sent transaction value", txn.value)
 
                 setTransaction(txn);
-                RecentsActions.saveAddressToRecents(txn.to);
+                // RecentsActions.saveAddressToRecents(txn.to);
             } catch (error) {
                 console.log("sent transaction error", error)
             } finally {
@@ -127,10 +129,10 @@ const ConfirmTransaction: React.FC<any> = inject('prices', 'wallets', 'wallet')
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                                <Text className='text-lg text-white'>{fee} ETH</Text>
+                                {/* <Text className='text-lg text-white'>{fee} ETH</Text> */}
                             </View>
                         </View>
-                        <View className='h-[1px] bg-slate-800 my-5'/>
+                        <View className='h-[1px] bg-slate-800 my-5' />
                         <View className='flex flex-row items-center justify-between p-5'>
                             <View className='flex flex-row  justify-between'>
                                 <Text className='flex-1 text-lg text-white'>Total Amount</Text>

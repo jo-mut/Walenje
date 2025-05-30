@@ -15,7 +15,6 @@ export default function SignUp() {
         return router.push("/(auth)/generate-seedphrase")
     }
 
-
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>

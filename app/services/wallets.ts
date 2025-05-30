@@ -2,7 +2,7 @@ import { Wallet } from 'ethers';
 import { Wallet as WalletConstants} from '../constants';
 import * as StorageService from './storage'
 
-export async function loadWallet() {
+export async function loadWallets() {
     const pks: string = await StorageService.getItem(WalletConstants.STORAGE_KEY);
     return pks ? JSON.parse(pks) : [];
 }

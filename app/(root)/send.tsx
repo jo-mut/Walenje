@@ -12,8 +12,6 @@ import IconView from '../components/IconView';
 import { router, useLocalSearchParams } from 'expo-router'
 import { FlatList } from 'react-native-reanimated/lib/typescript/Animated';
 
-
-
 const Send: React.FC<any> = inject('wallets')(observer(({ wallets }) => {
   // const { fromAddress }: { fromAddress: string } = useLocalSearchParams();
   const [sendExpanded, setSendExpanded] = useState<boolean>(true);

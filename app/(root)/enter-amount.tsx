@@ -13,6 +13,9 @@ const EnterAmount = () => {
   const [amountValue, setAmountValue] = useState<string>();
   const [showMore, setShowMore] = useState<boolean>(true);
 
+  console.log("toAddress ENTER AMOUNT ", toAddress)
+
+
   return (
     <SafeAreaView className='flex-1 bg-black'>
       <View className='flex-1 px-5'>

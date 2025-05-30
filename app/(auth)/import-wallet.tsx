@@ -9,8 +9,7 @@ import { router } from 'expo-router';
 
 
 export default function ImportWallet() {
-  const [seedphrase, setSeedPhrase] = useState<string>();
-
+  const [seedphrase, setSeedPhrase] = useState<string>("");
   const isValidSequence = (phrase?: string[]) => {
 
     return true;

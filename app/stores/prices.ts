@@ -4,6 +4,7 @@ const INITIAL = {
     usd: 0,
     eur: 0,
     jmd: 0,
+    priceChange: 0,
     loading: false
 };
 
@@ -13,6 +14,7 @@ export class PricesStore {
     @observable eur = INITIAL.eur;
     @observable jmd = INITIAL.jmd;
     @observable loading = INITIAL.loading;
+    @observable priceChange = INITIAL.priceChange;
 
     validateInput(input: number) {
         if (isNaN(input) || typeof input !== 'number') throw new Error('The input is NaN');
@@ -26,15 +28,20 @@ export class PricesStore {
         this.validateInput(rate);
         this.usd = Number(rate);
     }
-    
+
     @action setEURRate(rate: number) {
         this.validateInput(rate);
         this.eur = Number(rate);
     }
-    
+
     @action setJMDRate(rate: number) {
         this.validateInput(rate);
         this.jmd = Number(rate);
+    }
+
+    @action setPriceChange(change: number) {
+        this.validateInput(change);
+        this.priceChange = Number(change)
     }
 
     @action reset() {

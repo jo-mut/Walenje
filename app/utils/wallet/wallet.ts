@@ -4,10 +4,8 @@ import { getBalance } from "web3/lib/commonjs/eth.exports";
 
 const { providers, utils, HDNodeWallet }: any = ethers;
 const INFURA_API_KEY = process.env.INFURA_API_KEY!
-const network = (process.env.NODE_ENV == 'production') ? 'mainnet' : 'sepolia';
+const network = process.env.NODE_ENV == 'production' ? 'mainnet' : 'sepolia';
 export const provider = new ethers.providers.InfuraProvider(network, INFURA_API_KEY);
-export const devProvider = new ethers.providers.InfuraProvider("mainnet", INFURA_API_KEY);
-
 
 export async function generateMnemonics() {
     const randomBytes = new Uint8Array(16);
@@ -25,9 +23,9 @@ export function loadWalletFromMnemonics(mnemonics: any, account: number) {
     } else if (mnemonics instanceof Array) {
         mnemonics = mnemonics.join(' ');
         const wallet = ethers.Wallet.fromMnemonic(mnemonics,  "m/44'/60'/0'/0/" + account);
-        console.log("wallet :", wallet);
-        console.log("network :", network);
-        const connectedWallet = wallet.connect(devProvider);
+        // console.log("wallet :", wallet);
+        // console.log("network :", network);
+        const connectedWallet = wallet.connect(provider);
         return connectedWallet;
     }
 }

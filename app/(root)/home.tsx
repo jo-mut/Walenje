@@ -6,7 +6,10 @@ import PageNav from '../components/PageNav'
 import Tab from '../components/tabs/Tab'
 import IconView from '../components/IconView'
 import { router, useLocalSearchParams, useRouter } from 'expo-router';
-import { Price, Token, Wallet as WalletsAction } from '../common/actions';
+import {
+    Price as PriceActions, Token as TokenActions,
+    Wallet as WalletsAction
+} from '../common/actions';
 import { Token as TokenService } from '../services'
 import { Wallet as WalletsUtils } from '../utils';
 import { Avatar } from '@/app/components/Avatar'
@@ -21,23 +24,27 @@ import TransactionItem from '../components/TransactionItem'
 import TokenItem from '../components/TokenItem'
 import { ITokenStore } from '@/interfaces/tokens'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { add } from 'lodash'
 
 
 const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
     ({ wallets, tokens, prices }) => {
         const address: string = wallets.currentWallet.address;
-        const importedTokens: ITokenStore[] = tokens.tokens
+        const importedTokens = tokens.tokens;
+        const { priceChange1h } = tokens?.tokenDetails[0] || 0;
         const router = useRouter();
         const [modalVisible, setModalVisible] = useState(false);
         const [activeTab, setActiveTab] = useState(true);
         const [selectedTab, setSelectedTab] = useState("Tokens");
         const [balance, setBalance] = useState<string>('');
         const [balanceValue, setBalanceValue] = useState<string>('');
-        const [tokenValue, setTokenValue] = useState(0);
-        const [priceChange, setPriceChange] = useState('9.07%');
+        const [price, setPrice] = useState(0);
         const [fiatValue, setFiatValue] = useState('');
+        const [tokenDetails, setTokenDetails] = useState({});
         const [transactionHistory, setTransactionHistory] = useState<any>();
         const tabs: string[] = ["Tokens", "NFTs", "Transactions"]
+
+        console.log("current wallet address home ", address)
 
         const getPrice = useQuery({
             queryKey: ['price'],
@@ -50,7 +57,7 @@ const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
                     }
 
                     const data = await response.json();
-
+                    setPrice(data?.data.result)
                     return data;
 
                 } catch (error) {
@@ -80,12 +87,34 @@ const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
             },
         })
 
+        const getTokenDetails = useQuery({
+            queryKey: ['details'],
+            queryFn: async () => {
+                try {
+                    const response = await fetch(`/details`);
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log("token details ", data?.data.result)
+                    return data;
+
+                } catch (error) {
+
+                    throw error;
+                }
+            },
+        })
+
+
+
         const selectTab = (tab: string) => {
             setSelectedTab(tab);
             walletBalance()
         }
 
-      
+
         const transactionType = (from: string) => {
             if (from !== address) {
                 return "Received"
@@ -120,9 +149,16 @@ const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
         }
 
         const walletBalance = async () => {
-            const currentBalance = await WalletsAction.walletBalance(wallets.currentWallet, address);
-            const formattedBalance = await WalletsUtils.formatBalance(currentBalance)
-            setBalance(Number(formattedBalance).toFixed(5));
+            try {
+                console.log("current wallet currentWallet home ", wallets.currentWallet, " ", address)
+                const currentBalance = await WalletsAction.walletBalance(wallets.currentWallet, address);
+                console.log("current wallet currentBalance home ", currentBalance)
+                const formattedBalance = await WalletsUtils.formatBalance(currentBalance)
+                console.log("current wallet formattedBalance home ", formattedBalance)
+                setBalance(Number(formattedBalance).toFixed(5));
+            } catch (error) {
+                console.log(error)
+            }
         }
 
 
@@ -139,27 +175,33 @@ const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
                 const fiatBalance = Number(prices.usd * Number(balance)).toFixed(2);
                 setBalanceValue(fiatBalance)
             }
-        }, [balance]);
+        }, []);
 
         useEffect(() => {
-            setTokenValue(getPrice.data?.data?.USD);
-        }, [tokenValue])
+            PriceActions.setPrice(getPrice.data?.data)
+        }, [price])
 
+        useEffect(() => {
+            const details = TokenActions.addTokenDetails(getTokenDetails.data?.data)
+            setTokenDetails(details);
+
+        }, [])
 
         return (
             <SafeAreaView
                 className={`flex-1 bg-black`}>
                 <View className='flex-1 m-5'>
                     <View
-                        className={`justify-center mt-10 rounded-3xl`}>
-
-                        <Text className='text-white text-4xl font-semibold'>{balance} {"ETH"}</Text>
-                        <View className='flex flex-row'>
-                            <Text className='text-white text-xl font-semibold'>{balanceValue}</Text>
-                            <Text className='text-xl text-green-500 ml-3'>{priceChange}</Text>
-                        </View>
+                        className={`justify-center rounded-3xl h-[100]`}>
+                        {balance && <Text className='text-white text-4xl font-semibold'>{balance} {"ETH"}</Text>}
+                        {balanceValue &&
+                            <View className='flex flex-row items-center'>
+                                <Text className='text-white text-xl font-semibold'>{balanceValue}</Text>
+                                <Text className='text-xl text-green-500 ml-3'>{priceChange1h}%</Text>
+                            </View>
+                        }
                     </View>
-                    <View className={`flex-row my-5 gap-5`}>
+                    <View className={`flex-row gap-5`}>
                         <View className={`flex-1 flex-row justify-center items-center 
                             bg-primaryGreyHex rounded-2xl p-1`}>
                             <Button
@@ -229,16 +271,17 @@ const Home: React.FC<any> = inject('wallets', "tokens", "prices")(observer(
                     </Modal>
                     <View className='flex-1 mt-5'>
                         <Tabs
-                            tabs={tabs.map((tab: string) => (
+                            tabs={tabs.map((tab: string, index: number) => (
                                 <Tab
+                                    key={index}
                                     isActive={tab === selectedTab ? activeTab : !activeTab}
                                     onPress={() => (selectTab(tab))}
                                     label={tab} />
                             ))} />
 
                         {selectedTab === "Tokens" &&
-                            <View className='flex-1 my-5'>
-                                <View className='flex-row '>
+                            <View className='flex-1 mt-10'>
+                                <View className='flex-row items-center'>
                                     <Text className='flex-1 text-white text-lg font-semibold'>Add Tokens</Text>
                                     <TouchableOpacity
                                         onPress={() => (

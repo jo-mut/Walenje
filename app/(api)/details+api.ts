@@ -6,13 +6,14 @@ export async function GET(req: Request) {
     const now = Math.floor(Date.now() / 1000);
     const urlParams = new URL(req.url).searchParams;
     const coinId = urlParams.get('coinId') || "ethereum";
-    const timestamp = urlParams.get('timestamp') || now;
+    const currency = urlParams.get('currency') || "USD";
 
 
     try {
         
         const response = await fetch(
-            `https://openapiv1.coinstats.app/coins/price/avg?coinId=${coinId}&timestamp=${timestamp}`,
+            // 'https://openapiv1.coinstats.app/coins/ethereum?currency=USD',
+            `https://openapiv1.coinstats.app/coins/${coinId}?currency=${currency}`,
             {
                 headers: {
                     accept: 'application/json',
@@ -26,6 +27,7 @@ export async function GET(req: Request) {
         }
 
         const result = await response.json();
+        console.log("details api response ", result )
         return new Response(JSON.stringify({ data: result }), { status: 200 });
     } catch (error) {
         console.error('Error in GET function:', error);  // Log the error
